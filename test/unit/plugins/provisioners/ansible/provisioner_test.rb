@@ -129,7 +129,7 @@ VF
       }
     end
 
-    it "enables '#{expected_transport_mode}' transport mode" do
+    it "enables '#{expected_transport_mode}' as default transport mode" do
       expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
         index = args.rindex("--connection=#{expected_transport_mode}")
         expect(index).to be > 0
@@ -234,42 +234,114 @@ VF
       end
     end
 
+    describe "with host_vars option" do
+      it_should_create_and_use_generated_inventory
+
+      it "adds host variables (given in Hash format) to the generated inventory" do
+        config.host_vars = {
+          machine1: {"http_port" => 80, "maxRequestsPerChild" => 808}
+        }
+        expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
+          inventory_content = File.read(generated_inventory_file)
+          expect(inventory_content).to match("^" + Regexp.quote(machine.name) + ".+http_port=80 maxRequestsPerChild=808")
+        }
+      end
+
+      it "adds host variables (given in Array format) to the generated inventory" do
+        config.host_vars = {
+          machine1: ["http_port=80", "maxRequestsPerChild=808"]
+        }
+        expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
+          inventory_content = File.read(generated_inventory_file)
+          expect(inventory_content).to match("^" + Regexp.quote(machine.name) + ".+http_port=80 maxRequestsPerChild=808")
+        }
+      end
+
+      it "adds host variables (given in String format) to the generated inventory " do
+        config.host_vars = {
+          :machine1 => "http_port=80 maxRequestsPerChild=808"
+        }
+        expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
+          inventory_content = File.read(generated_inventory_file)
+          expect(inventory_content).to match("^" + Regexp.quote(machine.name) + ".+http_port=80 maxRequestsPerChild=808")
+        }
+      end
+
+      it "retrieves the host variables by machine name, also in String format" do
+        config.host_vars = {
+          "machine1" => "http_port=80 maxRequestsPerChild=808"
+        }
+        expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
+          inventory_content = File.read(generated_inventory_file)
+          expect(inventory_content).to match("^" + Regexp.quote(machine.name) + ".+http_port=80 maxRequestsPerChild=808")
+        }
+      end
+    end
+
     describe "with groups option" do
       it_should_create_and_use_generated_inventory
 
       it "adds group sections to the generated inventory" do
         config.groups = {
-          "group1" => "#{machine.name}",
-          "group1:children" => 'bar',
+          "group1" => "machine1",
+          "group1:children" => 'bar group3',
           "group2" => [iso_env.machine_names[1]],
           "group3" => ["unknown", "#{machine.name}"],
+          "group4" => ["machine[1:2]", "machine[a:f]"],
+          "group6" => [machine.name],
           "bar" => ["#{machine.name}", "group3"],
-          "bar:children" => ["group1", "group2", "group3", "group4"],
-          "bar:vars" => ["myvar=foo"],
+          "bar:children" => ["group1", "group2", "group3", "group5"],
         }
 
         expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
           inventory_content = File.read(generated_inventory_file)
 
-          # Group variables are intentionally not supported in generated inventory
-          expect(inventory_content).not_to match(/^\[.*:vars\]$/)
-
-          # Accept String instead of Array for group that contains a single item
-          expect(inventory_content).to include("[group1]\n#{machine.name}\n")
-          expect(inventory_content).to include("[group1:children]\nbar\n")
+          # Accept String instead of Array for group member list
+          expect(inventory_content).to include("[group1]\nmachine1\n\n")
+          expect(inventory_content).to include("[group1:children]\nbar\ngroup3\n\n")
 
           # Skip "lost" machines
           expect(inventory_content).to include("[group2]\n\n")
 
           # Skip "unknown" machines
-          expect(inventory_content).to include("[group3]\n#{machine.name}\n")
+          expect(inventory_content).to include("[group3]\n#{machine.name}\n\n")
+
+          # Accept Symbol datatype for group names
+          expect(inventory_content).to include("[group6]\n#{machine.name}\n\n")
+
+          # Accept host range patterns
+          expect(inventory_content).to include("[group4]\nmachine[1:2]\nmachine[a:f]\n")
 
           # Don't mix group names and host names
-          expect(inventory_content).to include("[bar]\n#{machine.name}\n")
+          expect(inventory_content).to include("[bar]\n#{machine.name}\n\n")
 
           # A group of groups only includes declared groups
-          expect(inventory_content).not_to match(/^group4$/)
-          expect(inventory_content).to include("[bar:children]\ngroup1\ngroup2\ngroup3\n")
+          expect(inventory_content).not_to include("group5")
+          expect(inventory_content).to match(Regexp.quote("[bar:children]\ngroup1\ngroup2\ngroup3\n") + "$")
+        }
+      end
+
+      it "adds group vars to the generated inventory" do
+        config.groups = {
+          "group1" => [machine.name],
+          "group2" => [machine.name],
+          "group3" => [machine.name],
+          "group1:vars" => {"hashvar1" => "hashvalue1", "hashvar2" => "hashvalue2"},
+          "group2:vars" => ["arrayvar1=arrayvalue1", "arrayvar2=arrayvalue2"],
+          "group3:vars" => "stringvar1=stringvalue1 stringvar2=stringvalue2",
+        }
+
+        expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
+          inventory_content = File.read(generated_inventory_file)
+
+          # Hash syntax
+          expect(inventory_content).to include("[group1:vars]\nhashvar1=hashvalue1\nhashvar2=hashvalue2\n")
+
+          # Array syntax
+          expect(inventory_content).to include("[group2:vars]\narrayvar1=arrayvalue1\narrayvar2=arrayvalue2\n")
+
+          # Single string syntax
+          expect(inventory_content).to include("[group3:vars]\nstringvar1=stringvalue1\nstringvar2=stringvalue2\n")
         }
       end
     end
@@ -370,6 +442,56 @@ VF
           expect(args).not_to include("--extra-vars=ansible_ssh_user='#{machine.ssh_info[:username]}'")
           expect(args).to include("--user=#{machine.ssh_info[:username]}")
         }
+      end
+    end
+
+    context "with winrm communicator" do
+
+      let(:iso_winrm_env) do
+        env = isolated_environment
+        env.vagrantfile <<-VF
+Vagrant.configure("2") do |config|
+  config.winrm.username = 'winner'
+  config.winrm.password = 'winword'
+  config.winrm.transport = :ssl
+
+  config.vm.define :machine1 do |machine|
+    machine.vm.box = "winbox"
+    machine.vm.communicator = :winrm
+  end
+end
+VF
+        env.create_vagrant_env
+      end
+
+      let(:machine) { iso_winrm_env.machine(iso_winrm_env.machine_names[0], :dummy) }
+
+      it_should_set_arguments_and_environment_variables
+
+      it "generates an inventory with winrm connection settings" do
+
+        expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
+          expect(config.inventory_path).to be_nil
+          expect(File.exists?(generated_inventory_file)).to be_true
+          inventory_content = File.read(generated_inventory_file)
+
+          expect(inventory_content).to include("machine1 ansible_connection=winrm ansible_ssh_host=127.0.0.1 ansible_ssh_port=55986 ansible_ssh_user='winner' ansible_ssh_pass='winword'\n")
+        }
+      end
+
+      describe "with force_remote_user option disabled" do
+        before do
+          config.force_remote_user = false
+        end
+
+        it "doesn't set the ansible remote user in inventory and use '--user' argument with the vagrant ssh username" do
+          expect(Vagrant::Util::Subprocess).to receive(:execute).with { |*args|
+            inventory_content = File.read(generated_inventory_file)
+
+            expect(inventory_content).to include("machine1 ansible_connection=winrm ansible_ssh_host=127.0.0.1 ansible_ssh_port=55986 ansible_ssh_pass='winword'\n")
+            expect(args).to include("--user=testuser")
+          }
+        end
       end
     end
 

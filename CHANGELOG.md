@@ -4,6 +4,8 @@ FEATURES:
 
   - **New Command: `vagrant powershell`**: For machines that support it,
     this will open a PowerShell prompt.
+  - **New Command: `vagrant port`**: For machines that support it, this will
+    display the list of forwarded ports from the guest to the host.
   - **Linked Clones**: VirtualBox and VMware providers now support
     linked clones for very fast (millisecond) imports on up. [GH-4484]
   - **Snapshots**: The `vagrant snapshot` command can be used to checkpoint
@@ -40,6 +42,8 @@ IMPROVEMENTS:
   - communicators/winrm: Configurable execution time limit [GH-6213]
   - providers/virtualbox: cache version lookup, which caused significant
       slowdown on some Windows hosts [GH-6552]
+  - providers/virtualbox: add `public_address` capability for virtualbox
+    [GH-6583, GH-5978]
   - provisioners/chef: perform cleanup tasks on the guest instead of the host
   - provisioners/chef: automatically generate a node_name if one was not given
     [GH-6555]
@@ -49,10 +53,17 @@ IMPROVEMENTS:
   - provisioners/chef: allow data_bags_path to be an array [GH-5988, GH-6561]
   - provisioners/shell: Support interactive mode for elevated PowerShell
       scripts [GH-6185]
+  - provisioners/shell: add `env` option [GH-6588, GH-6516]
   - provisioners/ansible+ansible_local: add support for ansible-galaxy [GH-2718]
+  - provisioners/ansible+ansible_local: add support for group and host variables
+      in the generated inventory [GH-6619]
+  - provisioners/ansible+ansible_local: add support for alphanumeric patterns
+      for groups in the generated inventory [GH-3539]
+  - provisioners/ansible: add support for WinRM settings [GH-5086]
   - provisioners/ansible: add new `force_remote_user` option to control whether
     `ansible_ssh_user` parameter should be applied or not [GH-6348]
   - provisioners/ansible: show a warning when running from a Windows Host [GH-5292]
+  - pushes/local-exec: add support for specifying script args [GH-6661, GH-6660]
   - guests/slackware: add support for networking [GH-6514]
 
 BUG FIXES:
@@ -72,10 +83,18 @@ BUG FIXES:
       retry from scratch [GH-4479]
   - core: line numbers show properly in Vagrantfile syntax errors
       on Windows [GH-6445]
+  - core: catch errors setting env vars on Windows [GH-6017]
+  - core: remove cached synced folders when they're removed from the
+      Vagrantfile [GH-6567]
+  - core: use case-insensitive comparison for box checksum validations
+    [GH-6648, GH-6650]
+  - commands/box: add command with `~` paths on Windows works [GH-5747]
   - commands/box: the update command supports CA settings [GH-4473]
   - commands/box: removing all versions and providers of a box will properly
       clean all directories in `~/.vagrant.d/boxes` [GH-3570]
   - commands/box: outdated global won't halt on metadata download failure [GH-6453]
+  - commands/login: respect environment variables in `vagrant login` command
+    [GH-6590, GH-6422]
   - commands/package: when re-packaging a packaged box, preserve the
       generated SSH key [GH-5780]
   - commands/plugin: retry plugin install automatically a few times to
@@ -83,20 +102,27 @@ BUG FIXES:
   - commands/rdp: prefer `xfreerdp` if it is available on Linux [GH-6475]
   - commands/up: the `--provision-with` flag works with provisioner names [GH-5981]
   - communicator/ssh: fix potential crash case with PTY [GH-6225]
+  - communicator/ssh: escape IdentityFile path [GH-6428, GH-6589]
   - communicator/winrm: respect `boot_timeout` setting [GH-6229]
   - communicator/winrm: execute scheduled tasks immediately on Windows XP
       since elevation isn't required [GH-6195]
+  - communicator/winrm: Decouple default port forwarding rules for "winrm" and
+      "winrm-ssl" [GH-6581]
   - communicator/winrm: Hide progress bars from PowerShell v5 [GH-6309]
   - guests/arch: enable network device after setting it up [GH-5737]
   - guests/darwin: advanced networking works with more NICs [GH-6386]
   - guests/debian: graceful shutdown works properly with newer releases [GH-5986]
   - guests/fedora: Preserve `localhost` entry when changing hostname [GH-6203]
-  - guests/fedora: Use dnf if it is available [GH-6301]
+  - guests/fedora: Use dnf if it is available [GH-6288]
   - guests/linux: when replacing a public SSH key, use POSIX-compliant
       sed flags [GH-6565]
   - guests/suse: DHCP network interfaces properly configured [GH-6502]
   - hosts/slackware: Better detection of NFS [GH-6367]
   - providers/hyper-v: support generation 2 VMs [GH-6372]
+  - providers/hyper-v: support VMs with more than one NIC [GH-4346]
+  - providers/virtualbox: ignore "Unknown" status bridge interfaces [GH-6061]
+  - providers/virtualbox: only fix ipv6 interfaces that are in use
+      [GH-6586, GH-6552]
   - provisioners/ansible: use quotes for the `ansible_ssh_private_key_file`
     value in the generated inventory [GH-6209]
   - provisioners/ansible: don't show the `ansible-playbook` command when verbose
@@ -120,6 +146,8 @@ BUG FIXES:
   - push/heroku: use current branch [GH-6554]
   - synced\_folders/rsync: on Windows, replace all paths with Cygwin
       paths since all rsync implementations require this [GH-6160]
+  - synced\_folders/smb: use credentials files to allow for more characters
+      in password [GH-4230]
 
 PLUGIN AUTHOR CHANGES:
 

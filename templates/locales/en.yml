@@ -160,6 +160,8 @@ en:
       description of what they do.
 
       %{list}
+    guest_deb_installing_smb: |-
+      Installing SMB "mount.cifs"...
     global_status_footer: |-
       The above shows information about all known Vagrant environments
       on this machine. This data is cached and may not be completely
@@ -730,6 +732,13 @@ en:
       downloader_interrupted: |-
         The download was interrupted by an external signal. It did not
         complete.
+      env_inval: |-
+        Vagrant received an "EINVAL" error while attempting to set some
+        environment variables. This is usually caused by the total size of your
+        environment variables being too large. Vagrant sets a handful of
+        environment variables to function and requires this to work. Please
+        delete some environment variables prior to executing Vagrant to
+        fix this.
       environment_locked: |-
         Vagrant attempted to acquire a lock named '%{name}', but this
         lock is being held by another instance of Vagrant already. Please
@@ -1306,10 +1315,14 @@ en:
         This is an internal error that should be reported as a bug.
       virtualbox_invalid_version: |-
         Vagrant has detected that you have a version of VirtualBox installed
-        that is not supported. Please install one of the supported versions
-        listed below to use Vagrant:
+        that is not supported by this version of Vagrant. Please install one of
+        the supported versions listed below to use Vagrant:
 
         %{supported_versions}
+
+        A Vagrant update may also be available that adds support for the version
+        you specified. Please check www.vagrantup.com/downloads.html to download
+        the latest version.
       virtualbox_kernel_module_not_loaded: |-
         VirtualBox is complaining that the kernel module is not loaded. Please
         run `VBoxManage --version` or open the VirtualBox GUI to see the error
@@ -2045,6 +2058,8 @@ en:
         invalid_encoding: |-
           Invalid encoding '%{actual}' for script at '%{path}'.
           Must be '%{default}' or UTF-8.
+        env_must_be_a_hash: |-
+          The shell provisioner's `env' option must be a hash.
         no_path_or_inline: "One of `path` or `inline` must be set."
         path_and_inline_set: "Only one of `path` or `inline` may be set."
         path_invalid: "`path` for shell provisioner does not exist on the host system: %{path}"
@@ -2054,6 +2069,12 @@ en:
         interactive_not_elevated: "To be interactive, it must also be privileged."
 
       ansible:
+        ansible_host_pattern_detected: |-
+          Vagrant has detected a host range pattern in the `groups` option.
+          Vagrant doesn't fully check the validity of these parameters!
+
+          Please check https://docs.ansible.com/ansible/intro_inventory.html#hosts-and-groups
+          for more information.
         cannot_detect: |-
           Vagrant does not support detecting whether Ansible is installed
           for the guest OS running in the machine. Vagrant will assume it is

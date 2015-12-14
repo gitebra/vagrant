@@ -381,7 +381,9 @@ module Vagrant
             @logger.info("URL is a file or protocol not found and assuming file.")
             file_path = File.expand_path(url)
             file_path = Util::Platform.cygwin_windows_path(file_path)
-            url = "file:#{file_path}"
+            file_path = file_path.gsub("\\", "/")
+            file_path = "/#{file_path}" if !file_path.start_with?("/")
+            url = "file://#{file_path}"
           end
 
           # If the temporary path exists, verify it is not too old. If its
@@ -520,7 +522,7 @@ module Vagrant
           @logger.info("Expected checksum: #{checksum}")
 
           actual = FileChecksum.new(path, checksum_klass).checksum
-          if actual != checksum
+          if actual.casecmp(checksum) != 0
             raise Errors::BoxChecksumMismatch,
               actual: actual,
               expected: checksum
