@@ -1,4 +1,12 @@
-## Next Release
+## 1.8.1.dev (Unreleased)
+
+BUG FIXES:
+
+  - provisioners/chef: convert chef version to a string before comparing for
+    the command builder [GH-6709, GH-6711]
+  - provisioners/shell: convert env var values to strings [GH-6714]
+
+## 1.8.0 (December 21, 2015)
 
 FEATURES:
 
@@ -33,6 +41,8 @@ IMPROVEMENTS:
   - core: prune entries from global status on non-existent cwd [GH-6535]
   - core: networking: allow specifying a DHCP IP [GH-6325]
   - core: run provisioner cleanup tasks before powering off the VM [GH-6553]
+  - core: only run provisioner cleanup tasks if they're implemented [GH-6603]
+      This improves UX, but wasn't a bug before.
   - command/plugin: Add `--plugin-clean-sources` flag to reset plugin install
       sources, primarily for corp firewalls. [GH-4738]
   - command/rsync-auto: SSH connection is cached for faster sync times [GH-6399]
@@ -120,11 +130,15 @@ BUG FIXES:
   - hosts/slackware: Better detection of NFS [GH-6367]
   - providers/hyper-v: support generation 2 VMs [GH-6372]
   - providers/hyper-v: support VMs with more than one NIC [GH-4346]
+  - providers/hyper-v: check if user is in the Hyper-V admin group if
+      they're not a Windows admin [GH-6662]
   - providers/virtualbox: ignore "Unknown" status bridge interfaces [GH-6061]
   - providers/virtualbox: only fix ipv6 interfaces that are in use
       [GH-6586, GH-6552]
   - provisioners/ansible: use quotes for the `ansible_ssh_private_key_file`
     value in the generated inventory [GH-6209]
+  - provisioners/ansible: use quotes when passing the private key files via
+      OpenSSH `-i` command line arguments [GH-6671]
   - provisioners/ansible: don't show the `ansible-playbook` command when verbose
     option is an empty string
   - provisioners/chef: fix `nodes_path` for Chef Zero [GH-6025, GH-6049]
@@ -2826,4 +2840,3 @@ compatibility.
 The changelog began with version 0.5.1 so any changes prior to that
 can be seen by checking the tagged releases and reading git commit
 messages.
-
