@@ -1,7 +1,20 @@
-## 1.8.1.dev (Unreleased)
+## Next Version (unreleased)
+
+
+
+## 1.8.1.dev (December 21, 2015)
 
 BUG FIXES:
 
+  - core: Don't create ".bundle" directory in pwd [GH-6717]
+  - core: Fix exception on installing VirtualBox [GH-6713]
+  - core: Do not convert standalone drive letters such as "D:" to
+      UNC paths [GH-6598]
+  - core: Fix a crash in parsing the config in some cases with network
+      configurations [GH-6730]
+  - commands/up: Smarter logic about what provider to install, avoiding
+      situations where VirtualBox was installed over the correct provider [GH-6731]
+  - guests/debian: Fix Docker install [GH-6722]
   - provisioners/chef: convert chef version to a string before comparing for
     the command builder [GH-6709, GH-6711]
   - provisioners/shell: convert env var values to strings [GH-6714]
