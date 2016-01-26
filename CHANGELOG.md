@@ -1,9 +1,19 @@
 ## Next Version (unreleased)
 
+IMPROVEMENTS:
+
+  - provisioners/chef: Add the ability to install on SUSE [GH-6806]
+
 BUG FIXES:
 
   - provisioners/ansible_local: Fix errors in absolute paths to playbook or
       galaxy resources when running on a Windows host [GH-6740, GH-6757]
+  - provisioners/ansible_local: Change the way to verify `ansible-galaxy`
+      presence, to avoid a non-zero status code with Ansible 2.0 [GH-6793]
+  - provisioners/ansible_local: The configuration sanity checks now only warn
+      on missing files or directories, so that the requested vagrant command is
+      always executed (e.g. `vagrant destroy` is not aborted when the configured
+      playbook is not present on the guest) [GH-6763]
 
 ## 1.8.1 (December 21, 2015)
 
@@ -2845,7 +2855,7 @@ compatibility.
     in a saved state. [GH-123]
   - Added `config.chef.recipe_url` which allows you to specify a URL to
     a gzipped tar file for chef solo to download cookbooks. See the
-    [chef-solo docs](http://wiki.opscode.com/display/chef/Chef+Solo#ChefSolo-RunningfromaURL) for more information.
+    [chef-solo docs](https://docs.chef.io/chef_solo.html) for more information.
     [GH-121]
   - Added `vagrant box repackage` which repackages boxes which have
     been added. This is useful in case you want to redistribute a base
