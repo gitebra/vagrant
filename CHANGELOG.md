@@ -1,15 +1,42 @@
 ## Next Version (unreleased)
 
+BREAKING CHANGES:
+
+  - The `winrm` communicator now shares the same upload behavior as the `ssh`
+  communicator. This change should have no impact to most vagrant operations but
+  may break behavior when uploading directories to an existing destination
+  target. The `file` provisioner should be the only builtin provisioner affected
+  by this change. When uploading a directory and the destination directory
+  exists on the endpoint, the source base directory will be created below the
+  destination directory on the endpoint and the source directory contents will
+  be unzipped to that location. Prior to this release, the contents of the
+  source directory would be unzipped to an existing destination directory
+  without creating the source base directory. This new behavior is more
+  consistent with SCP and other well known shell copy commands.
+
 IMPROVEMENTS:
 
+  - communicators/winrm: Upgrade to latest WinRM gems [GH-6922]
   - provisioners/chef: Add the ability to install on SUSE [GH-6806]
+  - hosts/darwin: Add `extra_args` support for RDP [GH-5523, GH-6602]
+  - hosts/windows: Use SafeExec to capture history in Powershell [GH-6749]
+  - guests/freebsd: Add quotes around hostname [GH-6867]
+  - guests/tincore: Add support for shared folders [GH-6977, GH-6968]
+  - guests/trisquel: Add initial support [GH-6842, GH-6843]
 
 BUG FIXES:
 
+  - core: Bump nokogiri version to fix windows bug [GH-6766, GH-6848]
   - core: Revert a change made to the output of the identify file [GH-6962,
       GH-6929, GH-6589]
+  - core: Fix login command behind a proxy [GH-6898, GH-6899]
+  - core: Fix support for regular expressions on multi-machine `up`
+      [GH-6908, GH-6909]
+  - core: Allow boxes to use pre-release versions [GH-6892, GH-6893]
   - docs & core: Be consistent about the "2" in the Vagrantfile version
       [GH-6961, GH-6963]
+  - guests/freebsd: Use `pkg` to install rsync [GH-6760]
+  - guests/coreos: Detect all interface names [GH-6608, GH-6610]
   - provisioners/ansible_local: Fix errors in absolute paths to playbook or
       galaxy resources when running on a Windows host [GH-6740, GH-6757]
   - provisioners/ansible_local: Change the way to verify `ansible-galaxy`
@@ -18,6 +45,10 @@ BUG FIXES:
       on missing files or directories, so that the requested vagrant command is
       always executed (e.g. `vagrant destroy` is not aborted when the configured
       playbook is not present on the guest) [GH-6763]
+  - provisioners/chef: Do not use double sudo when installing
+      [GGH-6805, GH-6804]
+  - provisioners/puppet: Use `where.exe` to locate puppet binary
+      [GH-6912, GH-6876]
 
 ## 1.8.1 (December 21, 2015)
 

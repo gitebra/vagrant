@@ -29,11 +29,11 @@ Gem::Specification.new do |s|
   s.add_dependency "rb-kqueue", "~> 0.2.0"
   s.add_dependency "rest-client", ">= 1.6.0", "< 2.0"
   s.add_dependency "wdm", "~> 0.1.0"
-  s.add_dependency "winrm", "~> 1.3"
-  s.add_dependency "winrm-fs", "~> 0.2.2"
+  s.add_dependency "winrm", "~> 1.6"
+  s.add_dependency "winrm-fs", "~> 0.3.0"
 
   # We lock this down to avoid compilation issues.
-  s.add_dependency "nokogiri", "= 1.6.3.1"
+  s.add_dependency "nokogiri", "= 1.6.7.1"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~> 2.14.0"
