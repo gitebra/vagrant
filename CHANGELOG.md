@@ -13,6 +13,11 @@ BREAKING CHANGES:
   source directory would be unzipped to an existing destination directory
   without creating the source base directory. This new behavior is more
   consistent with SCP and other well known shell copy commands.
+  - The Chef provisioner's `channel` default value has changed from "current" to
+    "stable". The "current" channel includes nightly releases and should be
+    opt-in only. Note that users wishing to download the Chef Development Kit
+    will need to opt into the "current" channel until Chef Software promotes
+    into the "stable" channel.
 
 IMPROVEMENTS:
 
@@ -21,7 +26,7 @@ IMPROVEMENTS:
   - hosts/darwin: Add `extra_args` support for RDP [GH-5523, GH-6602]
   - hosts/windows: Use SafeExec to capture history in Powershell [GH-6749]
   - guests/freebsd: Add quotes around hostname [GH-6867]
-  - guests/tincore: Add support for shared folders [GH-6977, GH-6968]
+  - guests/tinycore: Add support for shared folders [GH-6977, GH-6968]
   - guests/trisquel: Add initial support [GH-6842, GH-6843]
 
 BUG FIXES:
@@ -47,6 +52,8 @@ BUG FIXES:
       playbook is not present on the guest) [GH-6763]
   - provisioners/chef: Do not use double sudo when installing
       [GGH-6805, GH-6804]
+  - provisioners/chef: Change the default channel to "stable" (previously it
+      was "current") [GH-7001, GH-6979]
   - provisioners/puppet: Use `where.exe` to locate puppet binary
       [GH-6912, GH-6876]
 
