@@ -54,8 +54,12 @@ BUG FIXES:
       [GGH-6805, GH-6804]
   - provisioners/chef: Change the default channel to "stable" (previously it
       was "current") [GH-7001, GH-6979]
+  - provisioners/docker: Fix -no-trunc command option [GH-7085]
+  - provisioners/docker: Allow provisioning when container name is specified
+      [GH-7074, GH-7086]
   - provisioners/puppet: Use `where.exe` to locate puppet binary
       [GH-6912, GH-6876]
+  - synced_folders/smb: Do not interpolate configuration file [GH-6906]
 
 ## 1.8.1 (December 21, 2015)
 
