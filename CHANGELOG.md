@@ -19,27 +19,48 @@ BREAKING CHANGES:
       will need to opt into the "current" channel until Chef Software promotes
       into the "stable" channel.
 
+FEATURES:
+
+  - provider/docker: Allow non-linux users to opt-out of the host VM to run
+      Docker containers by setting `config.force_host_vm = false` in the
+      Vagrantfile. This is especially useful for customers who wish to use
+      the beta builds for Mac and Windows, dlite, or a custom provider.
+      [GH-7277, GH-7298, 8c11b53]
+
 IMPROVEMENTS:
 
+  - core/downloader: increase box resume download limit to 24h
+      [GH-7352, GH-7272]
+  - core/package: run validations prior to packaging [GH-7353, GH-7351]
+  - core/action: make `start` ("vagrant up") run provisioners [GH-4467, GH-4421]
+  - commands/all: Make it clear that machine IDs can be specified
+      [GH-7356, GH-7228]
   - commands/login: Print a warning with both the environment variable and
       local login token are present [GH-7206, GH-7219]
   - communicators/winrm: Upgrade to latest WinRM gems [GH-6922]
   - provisioners/ansible_local: Use `provisioning_path` as working directory
       for `ansible-galaxy` execution
-  - provisioners/ansible(both provisioners): Add basic config validators/converters
-      on `raw_arguments` and `raw_ssh_args` options [GH-7103]
+  - provisioners/ansible(both provisioners): Add basic config
+      validators/converters on `raw_arguments` and `raw_ssh_args` options
+      [GH-7103]
   - provisioners/chef: Add the ability to install on SUSE [GH-6806]
   - provisioners/chef: Support legacy solo mode [GH-7327]
+  - provisioners/docker: Restart container if newer image is available
+      [GH-7358, GH-6620]
   - hosts/darwin: Add `extra_args` support for RDP [GH-5523, GH-6602]
   - hosts/windows: Use SafeExec to capture history in Powershell [GH-6749]
   - guests/freebsd: Add quotes around hostname [GH-6867]
   - guests/tinycore: Add support for shared folders [GH-6977, GH-6968]
   - guests/trisquel: Add initial support [GH-6842, GH-6843]
-  - core: Add `--no-delete` and provisioning flags to snapshot restore/pop [GH-6879]
+  - guests/windows: Add support for automatic login (no password prompting)
+      [GH-5670]
+  - core: Add `--no-delete` and provisioning flags to snapshot restore/pop
+      [GH-6879]
   - providers/virtualbox: Add linked clone support for Virtualbox 1.4 [GH-7050]
   - providers/hyperv: Add support for differencing disk [GH-7090]
   - providers/hyperv: Add support for snapshots [GH-7110]
   - providers/hyperv: Reinstate compatibility with PS 4 [GH-7108]
+  - synced_folders/nfs: Read static and dynamic IPs [GH-7290, GH-7289]
 
 BUG FIXES:
 
@@ -52,6 +73,12 @@ BUG FIXES:
   - core: Allow boxes to use pre-release versions [GH-6892, GH-6893]
   - core: Rescue `Errno:ENOTCONN` waiting for port to be open [GH-7182, GH-7184]
   - core: Properly authenticate metadata box URLs [GH-6776, GH-7158]
+  - core: Do not run provisioners if already run on resume [GH-7059, GH-6787]
+  - core: Implement better tracking of tempfiles and tmpdirs to identify file
+      leaks [GH-7355]
+  - core: Allow SSH forwarding on Windows [GH-7287, GH-7202]
+  - core: Allow customizing `keys_only` SSH option [GH-7360, GH-4275]
+  - core: Allow customizing `paranoid` SSH option [GH-7360, GH-4275]
   - docs & core: Be consistent about the "2" in the Vagrantfile version
       [GH-6961, GH-6963]
   - guests/arch: Restart network after configuration [GH-7120, GH-7119]
@@ -62,6 +89,9 @@ BUG FIXES:
   - guests/coreos: Detect all interface names [GH-6608, GH-6610]
   - providers/hyperv: Only specify Hyper-V if the parameter is support
       [GH-7101, GH-7098]
+  - providers/virtualbox: Set maximum network adapters to 36 [GH-7293, GH-7286]
+  - providers/virtualbox: Do not fail when master VM from linked clone is
+      missing [GH-7126, GH-6742]
   - provisioners/ansible_local: Don't quote the Ansible arguments defined in the
       `raw_arguments` option [GH-7103]
   - provisioners/ansible_local: Format json `extra_vars` with double quotes
@@ -98,6 +128,8 @@ BUG FIXES:
       UNC paths [GH-6598]
   - core: Fix a crash in parsing the config in some cases with network
       configurations [GH-6730]
+  - core: Clean up temporarily files created by bundler
+    [GH-7354, GH-6301, GH-3469, GH-6231]
   - commands/up: Smarter logic about what provider to install, avoiding
       situations where VirtualBox was installed over the correct provider [GH-6731]
   - guests/debian: Fix Docker install [GH-6722]
