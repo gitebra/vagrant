@@ -35,6 +35,7 @@ IMPROVEMENTS:
   - core/action: make `start` ("vagrant up") run provisioners [GH-4467, GH-4421]
   - commands/all: Make it clear that machine IDs can be specified
       [GH-7356, GH-7228]
+  - commands/init: Add support for specifying the box version [GH-7363, GH-5004]
   - commands/login: Print a warning with both the environment variable and
       local login token are present [GH-7206, GH-7219]
   - communicators/winrm: Upgrade to latest WinRM gems [GH-6922]
@@ -56,10 +57,12 @@ IMPROVEMENTS:
       [GH-5670]
   - core: Add `--no-delete` and provisioning flags to snapshot restore/pop
       [GH-6879]
-  - providers/virtualbox: Add linked clone support for Virtualbox 1.4 [GH-7050]
+  - providers/docker: Allow TCP and UDP ports on the same number [GH-7365,
+      GH-5527]
   - providers/hyperv: Add support for differencing disk [GH-7090]
   - providers/hyperv: Add support for snapshots [GH-7110]
   - providers/hyperv: Reinstate compatibility with PS 4 [GH-7108]
+  - providers/virtualbox: Add linked clone support for Virtualbox 1.4 [GH-7050]
   - synced_folders/nfs: Read static and dynamic IPs [GH-7290, GH-7289]
 
 BUG FIXES:
@@ -79,6 +82,8 @@ BUG FIXES:
   - core: Allow SSH forwarding on Windows [GH-7287, GH-7202]
   - core: Allow customizing `keys_only` SSH option [GH-7360, GH-4275]
   - core: Allow customizing `paranoid` SSH option [GH-7360, GH-4275]
+  - command/init: Remove unnecessary `sudo` from generated Vagrantfile
+      [GH-7369, GH-7295]
   - docs & core: Be consistent about the "2" in the Vagrantfile version
       [GH-6961, GH-6963]
   - guests/arch: Restart network after configuration [GH-7120, GH-7119]
