@@ -26,6 +26,9 @@ FEATURES:
       Vagrantfile. This is especially useful for customers who wish to use
       the beta builds for Mac and Windows, dlite, or a custom provider.
       [GH-7277, GH-7298, 8c11b53]
+  - provider/docker: New command: `docker-exec` allows attaching to an
+      already-running container.
+      [GH-7377, GH-6566, GH-5193, GH-4904, GH-4057, GH-4179, GH-4903]
 
 IMPROVEMENTS:
 
@@ -51,6 +54,7 @@ IMPROVEMENTS:
   - hosts/darwin: Add `extra_args` support for RDP [GH-5523, GH-6602]
   - hosts/windows: Use SafeExec to capture history in Powershell [GH-6749]
   - guests/freebsd: Add quotes around hostname [GH-6867]
+  - guests/fedora: Add support for ipv6 static networks [GH-7275, GH-7276]
   - guests/tinycore: Add support for shared folders [GH-6977, GH-6968]
   - guests/trisquel: Add initial support [GH-6842, GH-6843]
   - guests/windows: Add support for automatic login (no password prompting)
@@ -105,10 +109,8 @@ BUG FIXES:
       galaxy resources when running on a Windows host [GH-6740, GH-6757]
   - provisioners/ansible_local: Change the way to verify `ansible-galaxy`
       presence, to avoid a non-zero status code with Ansible 2.0 [GH-6793]
-  - provisioners/ansible_local: The configuration sanity checks now only warn
-      on missing files or directories, so that the requested vagrant command is
-      always executed (e.g. `vagrant destroy` is not aborted when the configured
-      playbook is not present on the guest) [GH-6763]
+  - provisioners/ansible(both provisioners): The Ansible configuration files
+      detection is only executed by the `provision` action [GH-6763, GH-6984]
   - provisioners/chef: Do not use double sudo when installing
       [GGH-6805, GH-6804]
   - provisioners/chef: Change the default channel to "stable" (previously it
