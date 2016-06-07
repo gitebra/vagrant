@@ -18,6 +18,9 @@ BREAKING CHANGES:
       opt-in only. Note that users wishing to download the Chef Development Kit
       will need to opt into the "current" channel until Chef Software promotes
       into the "stable" channel.
+  - The Arch Linux host capability for NFS removed support for rc.d in favor or
+      systemd which has been present since 2012. Please see GH-7181 for more
+      information.
 
 FEATURES:
 
@@ -51,8 +54,11 @@ IMPROVEMENTS:
   - provisioners/chef: Support legacy solo mode [GH-7327]
   - provisioners/docker: Restart container if newer image is available
       [GH-7358, GH-6620]
+  - hosts/arch: Remove sysvinit and assume systemd [GH-7181]
+  - hosts/linux: Do not use a pager with systemctl commands [GH-7270]
   - hosts/darwin: Add `extra_args` support for RDP [GH-5523, GH-6602]
   - hosts/windows: Use SafeExec to capture history in Powershell [GH-6749]
+  - guests/amazon: Add detection [GH-7395, GH-7254]
   - guests/freebsd: Add quotes around hostname [GH-6867]
   - guests/fedora: Add support for ipv6 static networks [GH-7275, GH-7276]
   - guests/tinycore: Add support for shared folders [GH-6977, GH-6968]
@@ -104,6 +110,8 @@ BUG FIXES:
   - providers/virtualbox: Set maximum network adapters to 36 [GH-7293, GH-7286]
   - providers/virtualbox: Do not fail when master VM from linked clone is
       missing [GH-7126, GH-6742]
+  - providers/virtualbox: Use scoped overrides in preparring NFS
+      [GH-7387, GH-7386]
   - provisioners/ansible_local: Don't quote the Ansible arguments defined in the
       `raw_arguments` option [GH-7103]
   - provisioners/ansible_local: Format json `extra_vars` with double quotes
@@ -125,6 +133,8 @@ BUG FIXES:
       [GH-7074, GH-7086]
   - provisioners/puppet: Use `where.exe` to locate puppet binary
       [GH-6912, GH-6876]
+  - provisioners/salt: Move masterless config to apply to all platforms
+      [GH-7207, Gh-6924, GH-6915]
   - pushes/ftp: Create parent directories when uploading [GH-7154, GH-6316]
   - synced_folders/smb: Do not interpolate configuration file [GH-6906]
 
