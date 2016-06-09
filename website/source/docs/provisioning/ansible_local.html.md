@@ -59,35 +59,43 @@ This section lists the specific options for the Ansible Local provisioner. In ad
 
 - `install` (boolean) - Try to automatically install Ansible on the guest system.
 
-  This option is enabled by default.
+    This option is enabled by default.
 
-  Vagrant will to try to install (or upgrade) Ansible when one of these conditions are met:
+    Vagrant will try to install (or upgrade) Ansible when one of these conditions are met:
 
     - Ansible is not installed (or cannot be found).
-
     - The `version` option is set to `"latest"`.
-
     - The current Ansible version does not correspond to the `version` option.
 
-  **Attention:** There is no guarantee that this automated installation will replace a custom Ansible setup, that might be already present on the Vagrant box.
+    **Attention:** There is no guarantee that this automated installation will replace a custom Ansible setup, that might be already present on the Vagrant box.
+
+- `install_mode` (`:default` or `:pip`) - Select the way to automatically install Ansible on the guest system.
+
+  - `:default`: Ansible is installed from the operating system package manager. This mode doesn't support `version` selection. For many platforms (e.g Debian, FreeBSD, OpenSUSE) the official package repository is used, except for the following Linux distributions:
+      - On Ubuntu-like systems, the latest Ansible release is installed from the `ppa:ansible/ansible` repository.
+      - On RedHat-like systems, the latest Ansible release is installed from the [EPEL](http://fedoraproject.org/wiki/EPEL) repository.
+
+  - `:pip`: Ansible is installed from [PyPI](https://pypi.python.org/pypi) with [pip](https://pip.pypa.io) package installer. With this mode, Vagrant will systematically try to [install the latest pip version](https://pip.pypa.io/en/stable/installing/#installing-with-get-pip-py). The `:pip` mode can install a specific version of Ansible if such information is specified with the `version` option described below.
+
+    The default value is `:default`, and any invalid value for this option will silently fall back to the default value.
 
 - `provisioning_path` (string) - An absolute path on the guest machine where the Ansible files are stored. The `ansible-galaxy` and `ansible-playbook` commands are executed from this directory. This is the location to place an [ansible.cfg](http://docs.ansible.com/ansible/intro_configuration.html) file, in case you need it.
 
-  The default value is `/vagrant`.
+    The default value is `/vagrant`.
 
 - `tmp_path` (string) - An absolute path on the guest machine where temporary files are stored by the Ansible Local provisioner.
 
-  The default value is `/tmp/vagrant-ansible`
+    The default value is `/tmp/vagrant-ansible`
 
 - `version` (string) - The expected Ansible version.
 
-  This option is disabled by default.
+    This option is disabled by default.
 
-  When an Ansible version is defined (e.g. `"1.8.2"`), the Ansible local provisioner will be executed only if Ansible is installed at the requested version.
+    When an Ansible version is defined (e.g. `"1.8.2"`), the Ansible local provisioner will be executed only if Ansible is installed at the requested version.
 
-  When this option is set to `"latest"`, no version check is applied.
+    When this option is set to `"latest"`, no version check is applied.
 
-  **Attention:** It is currently not possible to use this option to specify which version of Ansible must be automatically installed. With the `install` option enabled, the latest version packaged for the target operating system will always be installed.
+    **Warning:** It is currently possible to use this option to specify which version of Ansible must be automatically installed, but only in combination with the `install_mode` set to `:pip`.
 
 ## Tips and Tricks
 

@@ -45,6 +45,8 @@ IMPROVEMENTS:
   - commands/login: Print a warning with both the environment variable and
       local login token are present [GH-7206, GH-7219]
   - communicators/winrm: Upgrade to latest WinRM gems [GH-6922]
+  - provisioners/ansible_local: Allow to install Ansible from pip,
+      with version selection capability [GH-6654, GH-7167]
   - provisioners/ansible_local: Use `provisioning_path` as working directory
       for `ansible-galaxy` execution
   - provisioners/ansible(both provisioners): Add basic config
@@ -112,6 +114,9 @@ BUG FIXES:
       missing [GH-7126, GH-6742]
   - providers/virtualbox: Use scoped overrides in preparring NFS
       [GH-7387, GH-7386]
+  - provisioners/ansible: Fix a race condition in the concurrent generations of
+      the ansible inventory file, while running `vagrant up --parallel`
+      [GH-6526, GH-7190]
   - provisioners/ansible_local: Don't quote the Ansible arguments defined in the
       `raw_arguments` option [GH-7103]
   - provisioners/ansible_local: Format json `extra_vars` with double quotes

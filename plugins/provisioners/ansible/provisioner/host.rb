@@ -89,8 +89,8 @@ module VagrantPlugins
 
         def execute_ansible_galaxy_from_host
           command_values = {
-            :role_file => get_galaxy_role_file(machine.env.root_path),
-            :roles_path => get_galaxy_roles_path(machine.env.root_path)
+            role_file: get_galaxy_role_file(machine.env.root_path),
+            roles_path: get_galaxy_roles_path(machine.env.root_path)
           }
           command_template = config.galaxy_command.gsub(' ', VAGRANT_ARG_SEPARATOR)
           str_command = command_template % command_values
@@ -139,8 +139,15 @@ module VagrantPlugins
           inventory_file = Pathname.new(File.join(inventory_path, 'vagrant_ansible_inventory'))
           @@lock.synchronize do
             if !File.exists?(inventory_file) or inventory_content != File.read(inventory_file)
-              inventory_file.open('w') do |file|
-                file.write(inventory_content)
+              begin
+                # ansible dir inventory will ignore files starting with '.'
+                inventory_tmpfile = Tempfile.new('.vagrant_ansible_inventory', inventory_path)
+                inventory_tmpfile.write(inventory_content)
+                inventory_tmpfile.close
+                File.rename(inventory_tmpfile.path, inventory_file)
+              ensure
+                inventory_tmpfile.close
+                inventory_tmpfile.unlink
               end
             end
           end
