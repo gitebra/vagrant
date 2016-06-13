@@ -1,4 +1,20 @@
-## Next Version (unreleased)
+## 1.8.4 (June 13, 2016)
+
+BUG FIXES:
+
+  - core: Fix bundler plugin issue and version constraint [GH-7418, GH-7415]
+  - providers/virtualbox: Use 8 network interfaces (due to Windows limitation)
+      [GH-7417, GH-7419]
+  - provisioners/ansible(both): Honor "galaxy_roles_path" option when running
+      ansible-playbook [GH-7269, GH-7420]
+  - provisioners/ansible_local: Add quotes around "ansible-galaxy" arguments
+      [GH-7420]
+
+IMPROVEMENTS:
+
+  - guests/redhat: Add CloudLinux detection [GH-7428, GH-7427]
+
+## 1.8.3 (June 10, 2016)
 
 BREAKING CHANGES:
 
