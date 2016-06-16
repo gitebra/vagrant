@@ -2,8 +2,13 @@
 
 BUG FIXES:
 
-  - core: bump listen gem and Ruby version to improve rsync performance
-    [GH-7453, GH-7441]
+  - core: Bump listen gem and Ruby version to improve rsync performance
+      [GH-7453, GH-7441]
+  - core: Check process stdout when detecting if a hyperv admin
+      [GH-7465, GH--7467]
+  - guests/centos: Use `ip` instead of `ifconfig` to detect network interfaces
+      [GH-7460]
+  - guests/debian: Ensure newline when inserting public key [GH-7456]
 
 ## 1.8.4 (June 13, 2016)
 
