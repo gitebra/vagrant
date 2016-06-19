@@ -1,10 +1,10 @@
 require_relative "../../../../base"
 
-describe "VagrantPlugins::GuestLinux::Cap::MountNFS" do
+describe "VagrantPlugins::GuestBSD::Cap::NFS" do
   let(:caps) do
-    VagrantPlugins::GuestLinux::Plugin
+    VagrantPlugins::GuestBSD::Plugin
       .components
-      .guest_capabilities[:linux]
+      .guest_capabilities[:bsd]
   end
 
   let(:machine) { double("machine") }
@@ -20,59 +20,36 @@ describe "VagrantPlugins::GuestLinux::Cap::MountNFS" do
 
   describe ".mount_nfs_folder" do
     let(:cap) { caps.get(:mount_nfs_folder) }
-
     let(:ip) { "1.2.3.4" }
-
-    let(:hostpath) { "/host" }
-    let(:guestpath) { "/guest" }
-
-    before do
-      allow(machine).to receive(:guest).and_return(
-        double("capability", capability: guestpath)
-      )
-    end
 
     it "mounts the folder" do
       folders = {
         "/vagrant-nfs" => {
-          type: :nfs,
           guestpath: "/guest",
           hostpath: "/host",
         }
       }
       cap.mount_nfs_folder(machine, ip, folders)
 
-      expect(comm.received_commands[0]).to match(/mkdir -p #{guestpath}/)
-      expect(comm.received_commands[0]).to match(/1.2.3.4:#{hostpath} #{guestpath}/)
+      expect(comm.received_commands[0]).to match(/set -e/)
+      expect(comm.received_commands[0]).to match(/mkdir -p \/guest/)
+      expect(comm.received_commands[0]).to match(/mount -t nfs/)
+      expect(comm.received_commands[0]).to match(/1.2.3.4:\/host \/guest/)
     end
 
     it "mounts with options" do
       folders = {
         "/vagrant-nfs" => {
-          type: :nfs,
           guestpath: "/guest",
           hostpath: "/host",
           nfs_version: 2,
           nfs_udp: true,
+          mount_options: ["banana"]
         }
       }
       cap.mount_nfs_folder(machine, ip, folders)
 
-      expect(comm.received_commands[0]).to match(/mount -o vers=2,udp/)
-    end
-
-    it "emits an event" do
-      folders = {
-        "/vagrant-nfs" => {
-          type: :nfs,
-          guestpath: "/guest",
-          hostpath: "/host",
-        }
-      }
-      cap.mount_nfs_folder(machine, ip, folders)
-
-      expect(comm.received_commands[0]).to include(
-        "/sbin/initctl emit --no-wait vagrant-mounted MOUNTPOINT=#{guestpath}")
+      expect(comm.received_commands[0]).to match(/mount -t nfs -o 'nfsv2,mntudp,banana'/)
     end
 
     it "escapes host and guest paths" do

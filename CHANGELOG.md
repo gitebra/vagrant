@@ -1,14 +1,35 @@
 ## Next Version (Unreleased)
 
+FEATURES:
+
+  - core: Provide a way to globally disable box update checks with the
+      environment variable `VAGRANT_BOX_UPDATE_CHECK_DISABLE`. Setting this
+      to any non-empty value will instruct Vagrant to not look for box updates
+      when running `vagrant up`. Setting this environment variable has no
+      effect on the `vagrant box` commands.
+
+IMPROVEMENTS:
+
+  - guests/darwin: Allow ipv6 static networks [GH-7491]
+
 BUG FIXES:
 
   - core: Bump listen gem and Ruby version to improve rsync performance
       [GH-7453, GH-7441]
   - core: Check process stdout when detecting if a hyperv admin
-      [GH-7465, GH--7467]
+      [GH-7465, GH-7467]
+  - core/guests: Create common BSD guest for shared logic
+  - guests/bsd: Consolidate core logic for mounting NFS folders
+      [GH-7480, GH-7474, GH-7466]
+  - guests/bsd: Consolidate core logic for public key management [GH-7481]
+  - guests/bsd: Consolidate core logic for halting [GH-7484]
   - guests/centos: Use `ip` instead of `ifconfig` to detect network interfaces
       [GH-7460]
   - guests/debian: Ensure newline when inserting public key [GH-7456]
+  - guests/linux: Ensure NFS retries during mounting [GH-7492]
+  - guests/redhat: Use `/sbin/ip` to list and configure networks for
+      compatability with older versions of CentOS [GH-7482]
+  - providers/hyperv: Fix version check and catch statement [GH-7447, GH-7487]
 
 ## 1.8.4 (June 13, 2016)
 

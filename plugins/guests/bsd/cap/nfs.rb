@@ -1,11 +1,13 @@
+require "shellwords"
 require "vagrant/util/retryable"
 
 module VagrantPlugins
-  module GuestLinux
+  module GuestBSD
     module Cap
-      class MountNFS
+      class NFS
         extend Vagrant::Util::Retryable
 
+        # Mount the given NFS folder.
         def self.mount_nfs_folder(machine, ip, folders)
           comm = machine.communicate
 
@@ -19,8 +21,8 @@ module VagrantPlugins
 
             # Build the list of mount options.
             mount_opts =  []
-            mount_opts << "vers=#{opts[:nfs_version]}" if opts[:nfs_version]
-            mount_opts << "udp" if opts[:nfs_udp]
+            mount_opts << "nfsv#{opts[:nfs_version]}" if opts[:nfs_version]
+            mount_opts << "mntudp" if opts[:nfs_udp]
             if opts[:mount_options]
               mount_opts = mount_opts + opts[:mount_options].dup
             end
@@ -30,19 +32,13 @@ module VagrantPlugins
             commands << "mkdir -p #{guest_path}"
 
             # Perform the mount operation.
-            commands << "mount -o #{mount_opts} #{ip}:#{host_path} #{guest_path}"
-
-            # Emit a mount event
-            commands << <<-EOH.gsub(/^ {14}/, '')
-              if command -v /sbin/init && /sbin/init --version | grep upstart; then
-                /sbin/initctl emit --no-wait vagrant-mounted MOUNTPOINT=#{guest_path}
-              fi
-            EOH
+            commands << "/sbin/mount -t nfs -o '#{mount_opts}' #{ip}:#{host_path} #{guest_path}"
 
             # Run the command, raising a specific error.
             retryable(on: Vagrant::Errors::NFSMountFailed, tries: 3, sleep: 5) do
               machine.communicate.sudo(commands.join("\n"),
                 error_class: Vagrant::Errors::NFSMountFailed,
+                shell: "sh",
               )
             end
           end
