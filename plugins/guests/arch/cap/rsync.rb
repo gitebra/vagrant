@@ -1,13 +1,13 @@
 module VagrantPlugins
-  module GuestDebian
+  module GuestArch
     module Cap
       class RSync
         def self.rsync_install(machine)
           comm = machine.communicate
-          comm.sudo <<-EOH.gsub(/^ {14}/, '')
+          comm.sudo <<-EOH.gsub(/^ {12}/, '')
             set -e
-            apt-get -yqq update
-            apt-get -yqq install rsync
+            pacman -Sy --noconfirm
+            pacman -S --noconfirm rsync
           EOH
         end
       end

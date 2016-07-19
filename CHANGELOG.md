@@ -2,6 +2,15 @@
 
 FEATURES:
 
+IMPROVEMENTS:
+
+BUG FIXES:
+
+
+## 1.8.5 (July 18, 2016)
+
+FEATURES:
+
   - core: Provide a way to globally disable box update checks with the
       environment variable `VAGRANT_BOX_UPDATE_CHECK_DISABLE`. Setting this
       to any non-empty value will instruct Vagrant to not look for box updates
@@ -10,6 +19,7 @@ FEATURES:
 
 IMPROVEMENTS:
 
+  - guests/arch: Support installing synced folder clients [GH-7519]
   - guests/darwin: Allow ipv6 static networks [GH-7491]
   - providers/virtualbox: Add support for 5.1 [GH-7574]
 
@@ -22,7 +32,18 @@ BUG FIXES:
   - core: Ensure removal of temporary directory when box download fails
       [GH-7496, GH-7499]
   - core: Fix regression for installing plugins from path [GH-7505, GH-7493]
+  - core: Skip checking conflicts on disabled ports [GH-7587]
+  - core: Idempotent write-out for state file [GH-7550]
   - core/guests: Create common BSD guest for shared logic
+  - core/guests: Ignore empty output from `/sbin/ip`
+      [GH-7539, GH-7537, GH-7533, GH-7605]
+  - synced_folders/nfs: Shellescape rsync paths
+      [GH-7540, GH-7605]
+  - synced_folders/nfs: Ensure retries take place [GH-6360, GH-7605]
+  - synced_folders/rsync: Shellescape rsync paths
+      [GH-7580, GH-6690, GH-7579, GH-7605]
+  - synced_folders/rsync: Translate Windows paths
+      [GH-7012, GH-6702, GH-6568, GH-7046]
   - guests/bsd: Consolidate core logic for mounting NFS folders
       [GH-7480, GH-7474, GH-7466]
   - guests/bsd: Consolidate core logic for public key management [GH-7481]
@@ -33,6 +54,9 @@ BUG FIXES:
   - guests/linux: Ensure NFS retries during mounting [GH-7492]
   - guests/redhat: Use `/sbin/ip` to list and configure networks for
       compatability with older versions of CentOS [GH-7482]
+  - guests/redhat: Ensure newline when inserting public key [GH-7598, GH-7605]
+  - guests/ubuntu: Use /etc/os-release to detech [GH-7524]
+  - guests/ubuntu: Use short hostname [GH-7488, GH-7605]
   - providers/hyperv: Fix version check and catch statement [GH-7447, GH-7487]
 
 ## 1.8.4 (June 13, 2016)
