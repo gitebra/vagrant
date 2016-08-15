@@ -1,10 +1,10 @@
 require_relative "../../../../base"
 
-describe "VagrantPlugins::GuestDarwin::Cap::Halt" do
+describe "VagrantPlugins::GuestOpenBSD::Cap::Halt" do
   let(:caps) do
-    VagrantPlugins::GuestDarwin::Plugin
+    VagrantPlugins::GuestOpenBSD::Plugin
       .components
-      .guest_capabilities[:darwin]
+      .guest_capabilities[:openbsd]
   end
 
   let(:machine) { double("machine") }
@@ -22,19 +22,19 @@ describe "VagrantPlugins::GuestDarwin::Cap::Halt" do
     let(:cap) { caps.get(:halt) }
 
     it "runs the shutdown command" do
-      comm.expect_command("/sbin/shutdown -h now")
+      comm.expect_command("/sbin/shutdown -p -h now")
       cap.halt(machine)
     end
 
     it "ignores an IOError" do
-      comm.stub_command("/sbin/shutdown -h now", raise: IOError)
+      comm.stub_command("/sbin/shutdown -p -h now", raise: IOError)
       expect {
         cap.halt(machine)
       }.to_not raise_error
     end
 
     it "ignores a Vagrant::Errors::SSHDisconnected" do
-      comm.stub_command("/sbin/shutdown -h now", raise: Vagrant::Errors::SSHDisconnected)
+      comm.stub_command("/sbin/shutdown -p -h now", raise: Vagrant::Errors::SSHDisconnected)
       expect {
         cap.halt(machine)
       }.to_not raise_error
