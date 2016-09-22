@@ -236,6 +236,12 @@ module VagrantPlugins
             ssh_options << "-o ProxyCommand='#{ proxy_cmd }'"
           end
 
+          # Use an SSH ProxyCommand when corresponding Vagrant setting is defined
+          if @machine.ssh_info[:proxy_command]
+            proxy_cmd = @machine.ssh_info[:proxy_command]
+            ssh_options << "-o ProxyCommand='#{ proxy_cmd }'"
+          end
+
           # Don't access user's known_hosts file, except when host_key_checking is enabled.
           ssh_options << "-o UserKnownHostsFile=/dev/null" unless config.host_key_checking
 
