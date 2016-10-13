@@ -5,6 +5,7 @@ FEATURES:
 IMPROVEMENTS:
 
   - guests/linux: Place ethernet devices at start of network devices list [GH-7848]
+  - guests/linux: Provide more consistent guest detection [GH-7887, GH-7827]
   - guests/redhat: Include Virtuozzo Linux 7 within flavor identification [GH-7818]
   - guests/windows: Allow vagrant to start Windows Nano without provisioning [GH-7831]
   - provisioners/ansible_local: Change the Ansible binary detection mechanism [GH-7536]
@@ -17,6 +18,7 @@ BUG FIXES:
   - communicators/winrm: Prevent connection leakage [GH-7712]
   - core: Prevent duplicate provider priorities [GH-7756]
   - core: Allow Numeric type for box version [GH-7874, GH-6960]
+  - core: Provide friendly error when user environment is too large [GH-7889, GH-7857]
   - guests/linux: Fix incorrectly configured private network [GH-7844, GH-7848]
   - guests/linux: Properly order network interfaces
       [GH-7866, GH-7876, GH-7858, GH-7876]
