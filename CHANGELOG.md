@@ -6,6 +6,7 @@ IMPROVEMENTS:
 
   - guests/linux: Place ethernet devices at start of network devices list [GH-7848]
   - guests/linux: Provide more consistent guest detection [GH-7887, GH-7827]
+  - guests/openbsd: Validate guest rsync installation success [GH-7929, GH-7898]
   - guests/redhat: Include Virtuozzo Linux 7 within flavor identification [GH-7818]
   - guests/windows: Allow vagrant to start Windows Nano without provisioning [GH-7831]
   - provisioners/ansible_local: Change the Ansible binary detection mechanism [GH-7536]
@@ -19,12 +20,15 @@ BUG FIXES:
   - core: Prevent duplicate provider priorities [GH-7756]
   - core: Allow Numeric type for box version [GH-7874, GH-6960]
   - core: Provide friendly error when user environment is too large [GH-7889, GH-7857]
+  - guests: Remove `set -e` usage for better shell compatibility [GH-7921, GH-7739]
   - guests/linux: Fix incorrectly configured private network [GH-7844, GH-7848]
   - guests/linux: Properly order network interfaces
       [GH-7866, GH-7876, GH-7858, GH-7876]
   - guests/linux: Only emit upstart event if initctl is available [GH-7813]
+  - guests/netbsd: Fix rsync installation [GH-7922, GH-7901]
   - guests/photon: Fix networking setup [GH-7808, GH-7873]
   - guests/redhat: Properly configure network and restart service [GH-7751]
+  - guests/redhat: Prevent NetworkManager from managing devices on initial start [GH-7926]
   - providers/docker: Remove --interactive flag when pty is true [GH-7688]
   - provisioners/ansible_local: Use enquoted path for file/directory existence checks
   - provisioners/salt: Synchronize configuration defaults with documentation [GH-7907, GH-6624]
