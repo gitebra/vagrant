@@ -1,6 +1,12 @@
-## Next Version (Unreleased)
+## Next version (Unreleased)
 
 FEATURES:
+
+IMPROVEMENTS:
+
+BUG FIXES:
+
+## 1.8.7 (November 4, 2016)
 
 IMPROVEMENTS:
 
@@ -30,6 +36,8 @@ BUG FIXES:
   - guests/photon: Fix networking setup [GH-7808, GH-7873]
   - guests/redhat: Properly configure network and restart service [GH-7751]
   - guests/redhat: Prevent NetworkManager from managing devices on initial start [GH-7926]
+  - hosts/linux: Fix race condition in writing /etc/exports file for NFS configuration
+      [GH-7947, GH-7938] - Thanks to Aron Griffis (@agriffis) for identifying this issue
   - plugins/rsync: Escape exclude paths [GH-7928, GH-7910]
   - providers/docker: Remove --interactive flag when pty is true [GH-7688]
   - provisioners/ansible_local: Use enquoted path for file/directory existence checks
