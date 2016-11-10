@@ -3,10 +3,17 @@
 FEATURES:
 
   - commands/box: Add `prune` subcommand for removing outdated boxes [GH-7978]
+  - core: Remove Bundler integration for handling internal plugins [GH-7793]
 
 IMPROVEMENTS:
 
+  - communicator/ssh: Support custom environment variable export template
+      [GH-7976, GH-6747]
+  - synced_folders: Support custom naming and disable auto-mount [GH-7980, GH-6836]
+
 BUG FIXES:
+
+  - provisioner/salt: Fix Hash construction for constant [GH-7986, GH-7981]
 
 ## 1.8.7 (November 4, 2016)
 
