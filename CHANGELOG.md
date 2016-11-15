@@ -3,7 +3,10 @@
 FEATURES:
 
   - commands/box: Add `prune` subcommand for removing outdated boxes [GH-7978]
-  - core: Remove Bundler integration for handling internal plugins [GH-7793]
+  - core: Remove Bundler integration for handling internal plugins [GH-7793, GH-8000]
+  - providers/hyperv: Add support for Hyper-V binary configuration format
+      [GH-7854, GH-7706, GH-6102]
+  - provisioners/shell: Support MD5/SHA1 checksum validation of remote scripts [GH-7985, GH-6323]
 
 IMPROVEMENTS:
 
@@ -13,6 +16,7 @@ IMPROVEMENTS:
 
 BUG FIXES:
 
+  - guests/linux: Do not match interfaces with special characters when sorting [GH-7989, GH-7988]
   - provisioner/salt: Fix Hash construction for constant [GH-7986, GH-7981]
 
 ## 1.8.7 (November 4, 2016)
