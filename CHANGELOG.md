@@ -4,12 +4,20 @@ FEATURES:
 
 IMPROVEMENTS:
 
+BUG FIXES:
+
+## 1.9.1 (December 7, 2016)
+
+IMPROVEMENTS:
+
   - core: Disable Vagrantfile loading when running plugin commands [GH-8066]
   - guests/redhat: Detect and restart NetworkManager service if in use [GH-8052, GH-7994]
 
 BUG FIXES:
 
   - core: Detect load failures within install solution sets and retry [GH-8068]
+  - core: Prevent interactive shell on plugin uninstall [GH-8086, GH-8087]
+  - core: Remove bundler usage from Util::Env [GH-8090, GH-8094]
   - guests/linux: Prevent stderr output on init version check for synced folders [GH-8051]
 
 ## 1.9.0 (November 28, 2016)
