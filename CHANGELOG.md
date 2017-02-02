@@ -6,6 +6,7 @@ FEATURES:
 
 IMPROVEMENTS:
 
+  - commands/expunge: Display default value on prompt and validate input [GH-8192, GH-8171]
   - communicator/winrm: Refactor WinRM communicator to use latest WinRM
       gems and V2 API [GH-8102]
   - providers/hyperv: Prefer VMCX over XML configuration when VMCX is supported [GH-8119]
@@ -13,6 +14,9 @@ IMPROVEMENTS:
 BUG FIXES:
 
   - command/package: Fix SecureRandom constant error [GH-8159]
+  - core/bundler: Prevent pristine warning messages [GH-8191, GH-8190, GH-8147]
+  - core/environment: Prevent persisting original environment variable if name is empty
+      [GH-8198, GH-8126]
   - guests/linux: Fix guest detection for names with spaces [GH-8092]
   - guests/redhat: Fix network interface configuration [GH-8148]
 
