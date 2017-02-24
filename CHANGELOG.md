@@ -10,16 +10,20 @@ IMPROVEMENTS:
   - commands/expunge: Display default value on prompt and validate input [GH-8192, GH-8171]
   - communicator/winrm: Refactor WinRM communicator to use latest WinRM
       gems and V2 API [GH-8102]
+  - core: Scrub URL credentials from output when adding boxes [GH-8194, GH-8117]
   - providers/hyperv: Prefer VMCX over XML configuration when VMCX is supported [GH-8119]
 
 BUG FIXES:
 
+  - command/init: Include box version when using minimal option [GH-8283, GH-8282]
   - command/package: Fix SecureRandom constant error [GH-8159]
   - core/bundler: Prevent pristine warning messages [GH-8191, GH-8190, GH-8147]
   - core/bundler: Fix local installations of pre-release plugins [GH-8252, GH-8253]
+  - core/bundler: Prefer user defined source when installing plugins [GH-8273, GH-8210]
   - core/environment: Prevent persisting original environment variable if name is empty
       [GH-8198, GH-8126]
   - core/environment: Fix gems_path location [GH-8248]
+  - core/environment: Properly expand dotfile path [GH-8196, GH-8108]
   - guests/arch: Fix configuring multiple network interfaces [GH-8165]
   - guests/linux: Fix guest detection for names with spaces [GH-8092]
   - guests/redhat: Fix network interface configuration [GH-8148]
