@@ -7,11 +7,13 @@ IMPROVEMENTS:
   - command/plugin: Remove requirement for paths with no spaces [GH-7967]
   - core: Support host_ip for forwarded ports [GH-7035]
   - core: Include disk space hint in box install failure message [GH-8089]
+  - core/bundler: Allow vagrant constraint matching in prerelease mode [GH-8341]
 
 BUG FIXES:
 
   - communicator/winrm: Prevent inaccurate WinRM address [GH-7983, GH-8073]
   - core: Fix box sorting on find and list [GH-7956, GH-8334]
+  - core/bundler: Force path as preferred source on install [GH-8327]
   - plugins/synced_folders: Give UID/GID precedence if found within mount options
       [GH-8122, GH-8064, GH-7859]
 
