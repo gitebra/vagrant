@@ -8,6 +8,7 @@ FEATURES:
 IMPROVEMENTS:
 
   - core/bundler: Warn when plugin require fails instead of generating hard failure [GH-8400, GH-8392]
+  - core/bundler: Error when configured plugin sources are unavailable [GH-8442]
   - provider/docker: Improve IP and port detection [GH-7840, GH-7651]
   - provider/docker: Do not force docker host VM on Darwin or Windows [GH-8437, GH-7895]
   - provisioners/ansible_local: Add `pip_args` option to define additional parameters when installing Ansible via pip [GH-8170, GH-8405]
@@ -22,6 +23,7 @@ BUG FIXES:
   - core/ui: Prevent deadlock detection errors [GH-8414, GH-8125]
   - guests/debian: Remove hardcoded device name in interface template [GH-8336, GH-7960]
   - guests/linux: Fix SMB mount capbability [GH-8410, GH-8404]
+  - guests/windows: Support mounting synced folders via SSH on windows [GH-7425, GH-6220]
   - hosts/windows: Fix issues with Windows encoding [GH-8385, GH-8380, GH-8212, GH-8207, GH-7516]
 
 ## 1.9.3 (March 21, 2017)
