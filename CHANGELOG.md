@@ -14,6 +14,7 @@ IMPROVEMENTS:
   - provider/docker: Do not force docker host VM on Darwin or Windows [GH-8437, GH-7895]
   - provisioners/ansible_local: Add `pip_args` option to define additional parameters when installing Ansible via pip [GH-8170, GH-8405]
   - provisioners/ansible_local: Add `:pip_args_only` install mode to allow full custom pip installations [GH-8405]
+  - provisioners/salt: Update minion version installed to 2016.11.3 [GH-8448]
 
 BUG FIXES:
 
@@ -26,6 +27,7 @@ BUG FIXES:
   - guests/linux: Fix SMB mount capbability [GH-8410, GH-8404]
   - guests/windows: Support mounting synced folders via SSH on windows [GH-7425, GH-6220]
   - hosts/windows: Fix issues with Windows encoding [GH-8385, GH-8380, GH-8212, GH-8207, GH-7516]
+  - provisioners/salt: Allow Salt version to match 2 digit month [GH-8428]
 
 ## 1.9.3 (March 21, 2017)
 
