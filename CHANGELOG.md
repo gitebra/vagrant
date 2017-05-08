@@ -5,15 +5,19 @@ FEATURES:
 IMPROVEMENTS:
 
   - communicators/ssh: Retry on aborted connections [GH-8526, GH-8520]
+  - communicators/winssh: Enabling shared folders and networking setup [GH-8567]
   - guests: Do not modify existing /etc/hosts content [GH-8506, GH-7794]
   - guests/redhat: Update network configuration capability to properly handle NM [GH-8531]
   - hosts/windows: Check for elevated shell for Hyper-V [GH-8548, GH-8510]
   - hosts/windows: Fix invalid share names on Windows guests from Windows hosts [GH-8433]
+  - providers: Return errors from docker/hyperv on ssh when not available [GH-8565, GH-8508]
 
 BUG FIXES:
 
   - provisioners/shell: Fix Windows batch file provisioning [GH-8539, GH-8535]
-  - provider/hyperv: Fix import script [GH-8529]
+  - providers/docker: Fall back to old style for SSH info lookup [GH-8566, GH-8552]
+  - providers/hyperv: Fix import script [GH-8529]
+  - providers/hyperv: Use string comparison for conditional checks in import scripts [GH-8568, GH-8444]
 
 ## 1.9.4 (April 24, 2017)
 
