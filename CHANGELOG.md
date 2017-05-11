@@ -2,10 +2,13 @@
 
 FEATURES:
 
+  - hosts/windows: Support running within WSL [GH-8570]
+
 IMPROVEMENTS:
 
   - communicators/ssh: Retry on aborted connections [GH-8526, GH-8520]
   - communicators/winssh: Enabling shared folders and networking setup [GH-8567]
+  - core: Remove nokogiri dependency and constraint [GH-8571]
   - guests: Do not modify existing /etc/hosts content [GH-8506, GH-7794]
   - guests/redhat: Update network configuration capability to properly handle NM [GH-8531]
   - hosts/windows: Check for elevated shell for Hyper-V [GH-8548, GH-8510]
@@ -14,6 +17,7 @@ IMPROVEMENTS:
 
 BUG FIXES:
 
+  - guests/debian: Fix use_dhcp_assigned_default_route [GH-8577, GH-8575]
   - provisioners/shell: Fix Windows batch file provisioning [GH-8539, GH-8535]
   - providers/docker: Fall back to old style for SSH info lookup [GH-8566, GH-8552]
   - providers/hyperv: Fix import script [GH-8529]
