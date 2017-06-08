@@ -165,6 +165,10 @@ en:
       description of what they do.
 
       %{list}
+    moved_cwd: |-
+      This machine used to live in %{old_wd} but it's now at %{current_wd}.
+      Please change the name of the machine if you want to run it as a different
+      machine.
     guest_deb_installing_smb: |-
       Installing SMB "mount.cifs"...
     global_status_footer: |-
@@ -1167,6 +1171,9 @@ en:
         This may be intentional or this may be a bug. If this provider
         should support snapshots, then please report this as a bug to the
         maintainer of the provider.
+      snapshot_not_found: |-
+        The snapshot name `%{snapshot_name}` was not found for the
+        virtual machine `%{machine}`.
       ssh_authentication_failed: |-
         SSH authentication failed! This is typically caused by the public/private
         keypair for the SSH user not being properly set on the guest VM. Please
