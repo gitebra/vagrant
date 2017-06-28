@@ -1,6 +1,4 @@
-## Next version (Unreleased)
-
-FEATURES:
+## 1.9.6 (June 28, 2017)
 
 IMPROVEMENTS:
 
@@ -9,9 +7,11 @@ IMPROVEMENTS:
   - core: Warn about vagrant CWD changes for a machine [GH-3921]
   - core: Allow Compression and DSAAuthentication ssh flags to be configurable [GH-8693]
   - core/box: Warn if user sets box as url [GH-7118]
+  - core/bundler: Enforce stict constraints on vendored libraries [GH-8692]
   - guests/kali: Add support for guest [GH-8553]
   - guests/smartos: Update halt capability and add public key insert and remove capabilities [GH-8618]
   - provisioners/ansible: Fix SSH keys only behavior to be consistent with Vagrant [GH-8467]
+  - providers/docker: Add post install provisioner for docker setup [GH-8722]
   - snapshot/delete: Improve error message when given snapshot doesn't exist [GH-8653]
   - snapshot/list: Raise exception if provider does not support snapshots [GH-8619]
   - snapshot/restore: Improve error message when given snapshot doesn't exist [GH-8653]
@@ -22,9 +22,11 @@ BUG FIXES:
   - communicators/ssh: Move `none` cipher to end of default cipher list in Net::SSH [GH-8661]
   - core: Add unique identifier to provisioner objects [GH-8680]
   - core: Stop config loader from loading dupe config if home and project dir are equal [GH-8707]
+  - core/bundler: Impose constraints on update and allow system plugins to properly update [GH-8729]
   - guests/linux: Strip whitespace from GID [GH-8666, GH-8664]
   - guests/solaris: Do not use UNC style path for shared folders from windows hosts [GH-7723]
   - guests/windows: Fix directory creation when using rsync for synced folders [GH-8588]
+  - hosts/windows: Force common encoding when running system commands [GH-8725]
   - providers/docker: Fix check for docker-compose [GH-8659, GH-8660]
   - providers/docker: Fix SSH under docker provider [GH-8706]
   - providers/hyperv: Fix box import [GH-8678, GH-8677]

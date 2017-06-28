@@ -215,15 +215,21 @@ module Vagrant
       update = {} if !update.is_a?(Hash)
       skips = []
       source_list = {}
+      system_plugins = plugins.map do |plugin_name, plugin_info|
+        plugin_name if plugin_info["system"]
+      end.compact
       installer_set = VagrantSet.new(:both)
+      installer_set.system_plugins = system_plugins
 
       # Generate all required plugin deps
       plugin_deps = plugins.map do |name, info|
+        gem_version = info['gem_version'].to_s.empty? ? '> 0' : info['gem_version']
         if update[:gems] == true || (update[:gems].respond_to?(:include?) && update[:gems].include?(name))
-          gem_version = '> 0'
+          if Gem::Requirement.new(gem_version).exact?
+            gem_version = "> 0"
+            @logger.debug("Detected exact version match for `#{name}` plugin update. Reset to loose constraint #{gem_version.inspect}.")
+          end
           skips << name
-        else
-          gem_version = info['gem_version'].to_s.empty? ? '> 0' : info['gem_version']
         end
         source_list[name] ||= []
         if plugin_source = info.delete("local_source")
@@ -239,7 +245,18 @@ module Vagrant
         Gem::Dependency.new(name, gem_version)
       end
 
-      @logger.debug("Dependency list for installation: #{plugin_deps}")
+      if Vagrant.strict_dependency_enforcement
+        @logger.debug("Enabling strict dependency enforcement")
+        plugin_deps += vagrant_internal_specs.map do |spec|
+          next if system_plugins.include?(spec.name)
+          Gem::Dependency.new(spec.name, spec.version)
+        end.compact
+      else
+        @logger.debug("Disabling strict dependency enforcement")
+      end
+
+      @logger.debug("Dependency list for installation:\n - " \
+        "#{plugin_deps.map{|d| "#{d.name} #{d.requirement}"}.join("\n - ")}")
 
       all_sources = source_list.values.flatten.uniq
       default_sources = DEFAULT_GEM_SOURCES & all_sources
@@ -277,10 +294,9 @@ module Vagrant
 
       installer_set = Gem::Resolver.compose_sets(
         installer_set,
-        generate_builtin_set,
+        generate_builtin_set(system_plugins),
         generate_plugin_set(skips)
       )
-
       @logger.debug("Generating solution set for installation.")
 
       # Generate the required solution set for new plugins
@@ -349,11 +365,13 @@ module Vagrant
     end
 
     # Generate the builtin resolver set
-    def generate_builtin_set
+    def generate_builtin_set(system_plugins=[])
       builtin_set = BuiltinSet.new
       @logger.debug("Generating new builtin set instance.")
       vagrant_internal_specs.each do |spec|
-        builtin_set.add_builtin_spec(spec)
+        if !system_plugins.include?(spec.name)
+          builtin_set.add_builtin_spec(spec)
+        end
       end
       builtin_set
     end
@@ -428,9 +446,11 @@ module Vagrant
     # the entire set used for performing full resolutions on install.
     class VagrantSet < Gem::Resolver::InstallerSet
       attr_accessor :prefer_sources
+      attr_accessor :system_plugins
 
       def initialize(domain, defined_sources={})
         @prefer_sources = defined_sources
+        @system_plugins = []
         super(domain)
       end
 
@@ -438,6 +458,11 @@ module Vagrant
       # for preferred sources
       def find_all(req)
         result = super
+        if system_plugins.include?(req.name)
+          result.delete_if do |spec|
+            spec.is_a?(Gem::Resolver::InstalledSpecification)
+          end
+        end
         subset = result.find_all do |idx_spec|
           preferred = false
           if prefer_sources[req.name]
