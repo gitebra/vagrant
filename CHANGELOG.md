@@ -1,3 +1,13 @@
+## Next version (Unreleased)
+
+FEATURES:
+
+IMPROVEMENTS:
+
+  - guests/bsd: Invoke `tee` with explicit path [GH-8740]
+
+BUG FIXES:
+
 ## 1.9.6 (June 28, 2017)
 
 IMPROVEMENTS:
