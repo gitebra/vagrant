@@ -83,20 +83,27 @@ module VagrantPlugins
           # need to worry about uniqueness with compose
           name    = machine.name.to_s
           image   = params.fetch(:image)
-          links   = params.fetch(:links)
+          links   = Array(params.fetch(:links, [])).map do |link|
+            case link
+            when Array
+              link
+            else
+              link.to_s.split(":")
+            end
+          end
           ports   = Array(params[:ports])
           volumes = Array(params[:volumes]).map do |v|
             v = v.to_s
+            host, guest = v.split(":", 2)
             if v.include?(":") && (Vagrant::Util::Platform.windows? || Vagrant::Util::Platform.wsl?)
-              host, guest = v.split(":", 2)
               host = Vagrant::Util::Platform.windows_path(host)
               # NOTE: Docker does not support UNC style paths (which also
               # means that there's no long path support). Hopefully this
               # will be fixed someday and the gsub below can be removed.
               host.gsub!(/^[^A-Za-z]+/, "")
-              v = [host, guest].join(":")
             end
-            v
+            host = @machine.env.cwd.join(host).to_s
+            "#{host}:#{guest}"
           end
           cmd     = Array(params.fetch(:cmd))
           env     = Hash[*params.fetch(:env).flatten.map(&:to_s)]
