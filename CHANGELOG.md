@@ -4,6 +4,12 @@ FEATURES:
 
 IMPROVEMENTS:
 
+BUG FIXES:
+
+## 2.0.0 (September 7, 2017)
+
+IMPROVEMENTS:
+
   - commands/login: Add support for two-factor authentication [GH-8935]
   - commands/ssh-config: Properly display windows path if invoked from msys2 or
       cygwin [GH-8915]
