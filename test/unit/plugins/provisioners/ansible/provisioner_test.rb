@@ -441,11 +441,15 @@ VF
 
       it "adds host variables (given in Hash format) to the generated inventory" do
         config.host_vars = {
-          machine1: {"http_port" => 80, "comments" => "'some text with spaces'"}
+          machine1: {
+            "http_port" => 80,
+            "comments" => "'some text with spaces and quotes'",
+            "description" => "text with spaces but no quotes",
+          }
         }
         expect(Vagrant::Util::Subprocess).to receive(:execute).with('ansible-playbook', any_args) {
           inventory_content = File.read(generated_inventory_file)
-          expect(inventory_content).to match("^" + Regexp.quote(machine.name) + ".+http_port=80 comments='some text with spaces'$")
+          expect(inventory_content).to match("^" + Regexp.quote(machine.name) + ".+http_port=80 comments='some text with spaces and quotes' description='text with spaces but no quotes'")
         }.and_return(default_execute_result)
       end
 
@@ -547,6 +551,19 @@ VF
 
           # Single string syntax
           expect(inventory_content).to include("[group3:vars]\nstringvar1=stringvalue1\nstringvar2=stringvalue2\n")
+        }.and_return(default_execute_result)
+      end
+
+      it "adds 'all:vars' section to the generated inventory" do
+        config.groups = {
+          "all:vars" => { "var1" => "value1", "var2" => "value2" }
+        }
+
+        expect(Vagrant::Util::Subprocess).to receive(:execute).with('ansible-playbook', any_args) { |*args|
+          inventory_content = File.read(generated_inventory_file)
+
+          expect(inventory_content).to include("[all:vars]\nvar1=value1\nvar2=value2\n")
+
         }.and_return(default_execute_result)
       end
     end
@@ -1060,10 +1077,10 @@ VF
     context "with extra_vars option defined" do
       describe "with a hash value" do
         before do
-          config.extra_vars = { var1: %Q(string with 'apostrophes', \\, " and =), var2: { x: 42 } }
+          config.extra_vars = { var1: %Q(string with 'apo$trophe$', \\, " and =), var2: { x: 42 } }
         end
 
-        it_should_set_optional_arguments({ "extra_vars" => "--extra-vars={\"var1\":\"string with 'apostrophes', \\\\, \\\" and =\",\"var2\":{\"x\":42}}" })
+        it_should_set_optional_arguments({ "extra_vars" => "--extra-vars={\"var1\":\"string with 'apo$trophe$', \\\\, \\\" and =\",\"var2\":{\"x\":42}}" })
       end
 
       describe "with a string value referring to file path (with the '@' prefix)" do
@@ -1085,7 +1102,7 @@ VF
 
         # command line arguments
         config.galaxy_roles_path = "/up/to the stars"
-        config.extra_vars = { var1: %Q(string with 'apostrophes', \\, " and =), var2: { x: 42 } }
+        config.extra_vars = { var1: %Q(string with 'apo$trophe$', \\, " and =), var2: { x: 42 } }
         config.become = true
         config.become_user = 'deployer'
         config.verbose = "vvv"
@@ -1106,11 +1123,11 @@ VF
 
       it_should_set_arguments_and_environment_variables 21, 6, true
       it_should_explicitly_enable_ansible_ssh_control_persist_defaults
-      it_should_set_optional_arguments({  "extra_vars"          => "--extra-vars={\"var1\":\"string with 'apostrophes', \\\\, \\\" and =\",\"var2\":{\"x\":42}}",
-                                          "become"                => "--sudo",
-                                          "become_user"           => "--sudo-user=deployer",
+      it_should_set_optional_arguments({  "extra_vars"          => "--extra-vars={\"var1\":\"string with 'apo$trophe$', \\\\, \\\" and =\",\"var2\":{\"x\":42}}",
+                                          "become"              => "--sudo",
+                                          "become_user"         => "--sudo-user=deployer",
                                           "verbose"             => "-vvv",
-                                          "ask_become_pass"       => "--ask-sudo-pass",
+                                          "ask_become_pass"     => "--ask-sudo-pass",
                                           "ask_vault_pass"      => "--ask-vault-pass",
                                           "vault_password_file" => "--vault-password-file=#{File.expand_path(__FILE__)}",
                                           "tags"                => "--tags=db,www",
@@ -1131,7 +1148,7 @@ VF
 
       it "shows the ansible-playbook command, with additional quotes when required" do
         expect(machine.env.ui).to receive(:detail)
-          .with(%Q(PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ANSIBLE_ROLES_PATH='/up/to the stars' ANSIBLE_CONFIG='#{existing_file}' ANSIBLE_HOST_KEY_CHECKING=true ANSIBLE_SSH_ARGS='-o IdentitiesOnly=yes -o IdentityFile=/my/key1 -o IdentityFile=/my/key2 -o ForwardAgent=yes -o ControlMaster=no -o ControlMaster=auto -o ControlPersist=60s' ansible-playbook --connection=ssh --timeout=30 --ask-sudo-pass --ask-vault-pass --limit="machine*:&vagrant:!that_one" --inventory-file=#{generated_inventory_dir} --extra-vars="{\\"var1\\":\\"string with 'apostrophes', \\\\\\\\, \\\\\\" and =\\",\\"var2\\":{\\"x\\":42}}" --sudo --sudo-user=deployer -vvv --vault-password-file=#{existing_file} --tags=db,www --skip-tags=foo,bar --start-at-task="joe's awesome task" --why-not --su-user=foot --ask-su-pass --limit=all --private-key=./myself.key --extra-vars='{\"var3\":\"foo\"}' playbook.yml))
+          .with(%Q(PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ANSIBLE_ROLES_PATH='/up/to the stars' ANSIBLE_CONFIG='#{existing_file}' ANSIBLE_HOST_KEY_CHECKING=true ANSIBLE_SSH_ARGS='-o IdentitiesOnly=yes -o IdentityFile=/my/key1 -o IdentityFile=/my/key2 -o ForwardAgent=yes -o ControlMaster=no -o ControlMaster=auto -o ControlPersist=60s' ansible-playbook --connection=ssh --timeout=30 --ask-sudo-pass --ask-vault-pass --limit="machine*:&vagrant:!that_one" --inventory-file=#{generated_inventory_dir} --extra-vars=\\{\\"var1\\":\\"string\\ with\\ \\'apo\\$trophe\\$\\',\\ \\\\\\\\,\\ \\\\\\"\\ and\\ \\=\\",\\"var2\\":\\{\\"x\\":42\\}\\} --sudo --sudo-user=deployer -vvv --vault-password-file=#{existing_file} --tags=db,www --skip-tags=foo,bar --start-at-task="joe's awesome task" --why-not --su-user=foot --ask-su-pass --limit=all --private-key=./myself.key --extra-vars='{\"var3\":\"foo\"}' playbook.yml))
       end
     end
 

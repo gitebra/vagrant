@@ -52,10 +52,10 @@ module VagrantPlugins
           @gathered_version = nil
         end
 
-        def set_compatibility_mode
+        def set_and_check_compatibility_mode
           begin
             set_gathered_ansible_version(gather_ansible_version)
-          rescue Exception => e
+          rescue StandardError => e
             # Nothing to do here, as the fallback on safe compatibility_mode is done below
             @logger.error("Error while gathering the ansible version: #{e.to_s}")
           end
@@ -83,7 +83,9 @@ module VagrantPlugins
           end
 
           unless Ansible::COMPATIBILITY_MODES.slice(1..-1).include?(config.compatibility_mode)
-            raise "Programming Error: compatibility_mode must correctly set at this stage!"
+            raise Ansible::Errors::AnsibleProgrammingError,
+              message: "The config.compatibility_mode must be correctly set at this stage!",
+              details: "config.compatibility_mode: '#{config.compatibility_mode}'"
           end
 
           @lexicon = ANSIBLE_PARAMETER_NAMES[config.compatibility_mode]
@@ -134,7 +136,7 @@ module VagrantPlugins
             if arg =~ /(--start-at-task|--limit)=(.+)/
               shell_args << %Q(#{$1}="#{$2}")
             elsif arg =~ /(--extra-vars)=(.+)/
-              shell_args << %Q(%s="%s") % [$1, $2.gsub('\\', '\\\\\\').gsub('"', %Q(\\"))]
+              shell_args << %Q(%s=%s) % [$1, $2.shellescape]
             else
               shell_args << arg
             end
@@ -212,7 +214,13 @@ module VagrantPlugins
           end
           s = nil
           if vars.is_a?(Hash)
-            s = vars.each.collect{ |k, v| "#{k}=#{v}" }.join(" ")
+            s = vars.each.collect {
+              |k, v|
+                if v.is_a?(String) && v.include?(' ') && !v.match(/^('|")[^'"]+('|")$/)
+                  v = %Q('#{v}')
+                end
+                "#{k}=#{v}"
+              }.join(" ")
           elsif vars.is_a?(Array)
             s = vars.join(" ")
           elsif vars.is_a?(String)
@@ -292,7 +300,7 @@ module VagrantPlugins
           end
 
           group_vars.each_pair do |gname, gmembers|
-            if defined_groups.include?(gname.sub(/:vars$/, ""))
+            if defined_groups.include?(gname.sub(/:vars$/, "")) || gname == "all:vars"
               inventory_groups += "\n[#{gname}]\n" + gmembers.join("\n") + "\n"
             end
           end
@@ -353,7 +361,12 @@ module VagrantPlugins
 
         def detect_compatibility_mode
           if !@gathered_version_major || config.compatibility_mode != Ansible::COMPATIBILITY_MODE_AUTO
-            raise "Programming Error: detect_compatibility_mode() shouldn't have been called."
+            raise Ansible::Errors::AnsibleProgrammingError,
+              message: "The detect_compatibility_mode() function shouldn't have been called!",
+              details: %Q(config.compatibility_mode: '#{config.compatibility_mode}'
+gathered version major number: '#{@gathered_version_major}'
+gathered version stdout version:
+#{@gathered_version_stdout})
           end
 
           if @gathered_version_major.to_i <= 1
