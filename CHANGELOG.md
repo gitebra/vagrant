@@ -4,7 +4,14 @@ FEATURES:
 
 IMPROVEMENTS:
 
+- core: Clear POSIXLY_CORRECT when using optparse [GH-8685]
+- provisioners/shell: Use ui.detail for displaying output [GH-8983]
+
 BUG FIXES:
+
+- core: Rescue more exceptions when checking if port is open [GH-8517]
+- guests/windows: Split out cygwin path helper for msys2/cygwin paths and ensure cygpath exists [GH-8972]
+- virtualbox/synced_folders: Allow synced folders to contain spaces in the guest path [GH-8995]
 
 ## 2.0.0 (September 7, 2017)
 
