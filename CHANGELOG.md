@@ -2,11 +2,20 @@
 
 FEATURES:
 
+IMPROVEMENTS:
+
+BUG FIXES:
+
+## 2.0.1 (November 2, 2017)
+
+FEATURES:
+
   - core: Introduce Ruby 2.4 to Vagrant [GH-9102]
   - providers/virtualbox: Virtualbox 5.2 support [GH-8955]
 
 IMPROVEMENTS:
 
+  - command/destroy: Introduce parallel destroy for certain providers [GH-9127]
   - communicators/winrm: Include APIPA check within ready check [GH-8997]
   - core: Clear POSIXLY_CORRECT when using optparse [GH-8685]
   - docs: Add auto_start_action and auto_stop_action to docs. [GH-9029]
@@ -15,6 +24,7 @@ IMPROVEMENTS:
   - providers/salt: Support Windows Salt Minions greater than 2016.x.x [GH-8926]
   - provisioners/salt: Add wget to bootstrap_salt options when fetching installer file [GH-9112]
   - provisioners/shell: Use ui.detail for displaying output [GH-8983]
+  - util/downloader: Use CURL_CA_BUNDLE environment variable [GH-9135]
 
 BUG FIXES:
 
@@ -24,6 +34,7 @@ BUG FIXES:
   - guests/windows: Split out cygwin path helper for msys2/cygwin paths and ensure cygpath exists [GH-8972]
   - guests/windows: Specify expected shell when executing on guest (fixes winssh communicator usage) [GH-9012]
   - guests/windows: Include WinSSH Communicator when using insert_public_key [GH-9105]
+  - hosts/windows: Check for vagrant.exe when validating versions within WSL [GH-9107, GH-8962]
   - providers/docker: Isolate windows check within executor to handle running through VM [GH-8921]
   - providers/hyper-v: Properly invoke Auto stop action [GH-9000]
   - provisioners/puppet: Fix winssh communicator support in puppet provisioner [GH-9014]
