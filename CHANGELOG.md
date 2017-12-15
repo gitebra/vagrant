@@ -2,17 +2,22 @@
 
 FEATURES:
 
-  - guests: Add support for the Haiku operating system [GH-7805]
+  - command/init: Support custom Vagrantfile templates [GH-9202]
+  - guests: Add support for the Haiku operating system [GH-7805, GH-9245]
 
 IMPROVEMENTS:
 
+  - core: Add optional timestamp prefix on log output [GH-9269]
   - docs: Include virtualbox 5.2.x as supported in docs [GH-9237]
+  - guests/dragonflybsd: Base guest on FreeBSD to inherit more functionality [GH-9205]
   - middleware/authentication: Add app.vagrantup.com to allowed hosts [GH-9145]
   - provisioners/salt: Fixes timeout issue in salt bootstrapping for windows [GH-8992]
 
 BUG FIXES:
 
   - commands/package: Fix --output path with specified folder [GH-9131]
+  - providers/hyper-v: Fix enable virtualization extensions on import [GH-9255]
+  - provisioners/ansible(both): Fix broken 'ask_sudo_pass' option [GH-9173]
 
 ## 2.0.1 (November 2, 2017)
 
