@@ -2,15 +2,18 @@
 
 FEATURES:
 
+  - core: Provide mechanism for removing sensitive data from output [GH-9276]
   - command/init: Support custom Vagrantfile templates [GH-9202]
   - guests: Add support for the Haiku operating system [GH-7805, GH-9245]
 
 IMPROVEMENTS:
 
   - core: Add optional timestamp prefix on log output [GH-9269]
+  - core: Print more helpful error message for NameEror exceptions in Vagrantfiles [GH-9252]
   - docs: Include virtualbox 5.2.x as supported in docs [GH-9237]
   - guests/dragonflybsd: Base guest on FreeBSD to inherit more functionality [GH-9205]
   - middleware/authentication: Add app.vagrantup.com to allowed hosts [GH-9145]
+  - providers/virtualbox: Add a clean error message for invalid IP addresses [GH-9275]
   - provisioners/salt: Fixes timeout issue in salt bootstrapping for windows [GH-8992]
 
 BUG FIXES:

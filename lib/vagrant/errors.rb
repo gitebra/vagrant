@@ -448,6 +448,10 @@ module Vagrant
       error_key(:collides, "vagrant.actions.vm.host_only_network")
     end
 
+    class NetworkAddressInvalid < VagrantError
+      error_key(:network_address_invalid)
+    end
+
     class NetworkDHCPAlreadyAttached < VagrantError
       error_key(:dhcp_already_attached, "vagrant.actions.vm.network")
     end
@@ -778,6 +782,10 @@ module Vagrant
 
     class VagrantfileLoadError < VagrantError
       error_key(:vagrantfile_load_error)
+    end
+
+    class VagrantfileNameError < VagrantError
+      error_key(:vagrantfile_name_error)
     end
 
     class VagrantfileSyntaxError < VagrantError
