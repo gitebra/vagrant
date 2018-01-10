@@ -17,10 +17,12 @@ IMPROVEMENTS:
   - providers/hyper-v: Ensure Hyper-V cmdlets are fully qualified [GH-8863]
   - middleware/authentication: Add app.vagrantup.com to allowed hosts [GH-9145]
   - providers/virtualbox: Add a clean error message for invalid IP addresses [GH-9275]
+  - providers/virtualbox: Introduce flag for SharedFoldersEnableSymlinksCreate setting [GH-9354]
   - provisioners/salt: Fixes timeout issue in salt bootstrapping for windows [GH-8992]
 
 BUG FIXES:
 
+  - commands/box: Show all box providers with `update outdated --global` [GH-9347]
   - commands/destroy: Exit 0 if vagrant destroy finds no running vms [GH-9251]
   - commands/package: Fix --output path with specified folder [GH-9131]
   - providers/hyper-v: Fix enable virtualization extensions on import [GH-9255]
