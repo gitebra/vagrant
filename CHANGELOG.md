@@ -3,8 +3,11 @@
 FEATURES:
 
   - core: Provide mechanism for removing sensitive data from output [GH-9276]
+  - core: Relax Ruby constraints to include 2.5 [GH-9363]
   - command/init: Support custom Vagrantfile templates [GH-9202]
   - guests: Add support for the Haiku operating system [GH-7805, GH-9245]
+  - synced_folders/smb: Add support for macOS hosts [GH-9294]
+  - vagrant-spec: Update vagrant-spec to include Windows platforms and updated linux boxes [GH-9183]
 
 IMPROVEMENTS:
 
@@ -13,13 +16,17 @@ IMPROVEMENTS:
   - core: Print more helpful error message for NameEror exceptions in Vagrantfiles [GH-9252]
   - docs: Include virtualbox 5.2.x as supported in docs [GH-9237]
   - docs: Improve how to pipe debug log on powershell [GH-9330]
+  - guests/amazon: Improve guest detection [GH-9307]
   - guests/debian: Update guest configure networks [GH-9338]
   - guests/dragonflybsd: Base guest on FreeBSD to inherit more functionality [GH-9205]
+  - guests/linux: Improve NFS service name detection and interactions [GH-9274]
+  - guests/solaris: Improve guest detection for alternatives [GH-9295]
   - providers/hyper-v: Ensure Hyper-V cmdlets are fully qualified [GH-8863]
   - middleware/authentication: Add app.vagrantup.com to allowed hosts [GH-9145]
   - providers/virtualbox: Add a clean error message for invalid IP addresses [GH-9275]
   - providers/virtualbox: Introduce flag for SharedFoldersEnableSymlinksCreate setting [GH-9354]
   - provisioners/salt: Fixes timeout issue in salt bootstrapping for windows [GH-8992]
+  - synced_folders/smb: Update Windows implementation [GH-9294]
 
 BUG FIXES:
 
