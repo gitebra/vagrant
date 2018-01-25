@@ -16,6 +16,7 @@ IMPROVEMENTS:
   - core: Add optional timestamp prefix on log output [GH-9269]
   - core: Print more helpful error message for NameEror exceptions in Vagrantfiles [GH-9252]
   - core: Update checkpoint implementation to announce updates and support notifications [GH-9380]
+  - core: Use Ruby's Resolv by default [GH-9394]
   - docs: Include virtualbox 5.2.x as supported in docs [GH-9237]
   - docs: Improve how to pipe debug log on powershell [GH-9330]
   - guests/amazon: Improve guest detection [GH-9307]
@@ -31,6 +32,7 @@ IMPROVEMENTS:
   - provisioners/shell: Support hiding environment variable values in output [GH-9367]
   - providers/virtualbox: Add a clean error message for invalid IP addresses [GH-9275]
   - providers/virtualbox: Introduce flag for SharedFoldersEnableSymlinksCreate setting [GH-9354]
+  - providers/virtualbox: Provide warning for SharedFoldersEnableSymlinksCreate setting [GH-9389]
   - provisioners/salt: Fixes timeout issue in salt bootstrapping for windows [GH-8992]
   - synced_folders/smb: Update Windows implementation [GH-9294]
 
