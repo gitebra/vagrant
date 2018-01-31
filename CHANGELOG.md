@@ -2,6 +2,14 @@
 
 FEATURES:
 
+IMPROVEMENTS:
+
+BUG FIXES:
+
+## 2.0.2 (January 29, 2018)
+
+FEATURES:
+
   - core: Provide mechanism for removing sensitive data from output [GH-9276]
   - core: Relax Ruby constraints to include 2.5 [GH-9363]
   - core: Hide sensitive values in output [GH-9369]
