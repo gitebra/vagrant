@@ -4,6 +4,7 @@ FEATURES:
 
 IMPROVEMENTS:
 
+  - providers/hyper-v: Exit if Hyper-V is enabled and VirtualBox provider is used [GH-9456]
   - provisioners/salt: Change to a temporary directory before downloading script files [GH-9351]
   - guests/solaris: More explicit Solaris 11 and inherit SmartOS from Solaris [GH-9398]
 
@@ -11,6 +12,7 @@ BUG FIXES:
 
   - guests/debian: Renew DHCP lease on hostname change [GH-9405]
   - guests/debian: Point hostname to 127.0.1.1 in /etc/hosts [GH-9404]
+  - guests/debian: Update systemd? check for guest inspection [GH-9459]
   - guests/openbsd: Atomically apply new hostname.if(5) [GH-9265]
 
 ## 2.0.2 (January 29, 2018)
