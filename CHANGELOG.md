@@ -4,9 +4,12 @@ FEATURES:
 
 IMPROVEMENTS:
 
+  - guests/solaris: More explicit Solaris 11 and inherit SmartOS from Solaris [GH-9398]
+  - plugins/login: Update middleware to re-map hosts and warn on custom server [GH-9499]
   - providers/hyper-v: Exit if Hyper-V is enabled and VirtualBox provider is used [GH-9456]
   - provisioners/salt: Change to a temporary directory before downloading script files [GH-9351]
-  - guests/solaris: More explicit Solaris 11 and inherit SmartOS from Solaris [GH-9398]
+  - sycned_folders/nfs: Default udp to false when using version 4 [GH-8828]
+  - util/downloader: Notify on host redirect [GH-9344]
 
 BUG FIXES:
 
@@ -14,9 +17,11 @@ BUG FIXES:
   - guests/debian: Renew DHCP lease on hostname change [GH-9405]
   - guests/debian: Point hostname to 127.0.1.1 in /etc/hosts [GH-9404]
   - guests/debian: Update systemd? check for guest inspection [GH-9459]
+  - guests/debian: Use ip route in dhcp template [GH-8730]
   - guests/gentoo: Disable if/netplugd when setting up a static ip on a gentoo guest using openrc [GH-9261]
   - guests/openbsd: Atomically apply new hostname.if(5) [GH-9265]
   - hosts/windows: Fix halt problem when determining powershell version on old powershells [GH-9470]
+  - util/credential_scrubber: Ignore empty strings [GH-9472, GH-9462]
 
 ## 2.0.2 (January 29, 2018)
 
