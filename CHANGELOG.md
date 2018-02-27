@@ -21,6 +21,7 @@ BUG FIXES:
   - guests/gentoo: Disable if/netplugd when setting up a static ip on a gentoo guest using openrc [GH-9261]
   - guests/openbsd: Atomically apply new hostname.if(5) [GH-9265]
   - hosts/windows: Fix halt problem when determining powershell version on old powershells [GH-9470]
+  - providers/virtualbox: Fix hostonly matching not respecting :name argument [GH-9302]
   - util/credential_scrubber: Ignore empty strings [GH-9472, GH-9462]
 
 ## 2.0.2 (January 29, 2018)
@@ -2463,7 +2464,7 @@ BUG FIXES:
   - Ignore "guest not ready" errors when attempting to graceful halt and
     carry on checks whether the halt succeeded. [GH-1679]
   - Handle the case where a roles path for Chef solo isn't properly
-	defined. [GH-1665]
+    defined. [GH-1665]
   - Finding V1 boxes now works properly again to avoid "box not found"
     errors. [GH-1691]
   - Setting hostname on SLES 11 works again. [GH-1781]
