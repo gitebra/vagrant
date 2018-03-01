@@ -5,6 +5,7 @@ FEATURES:
 IMPROVEMENTS:
 
   - guests/solaris: More explicit Solaris 11 and inherit SmartOS from Solaris [GH-9398]
+  - hosts/windows: Add support for latest WSL release [GH-9525, GH-9300]
   - plugins/login: Update middleware to re-map hosts and warn on custom server [GH-9499]
   - providers/hyper-v: Exit if Hyper-V is enabled and VirtualBox provider is used [GH-9456]
   - provisioners/salt: Change to a temporary directory before downloading script files [GH-9351]
@@ -21,6 +22,7 @@ BUG FIXES:
   - guests/gentoo: Disable if/netplugd when setting up a static ip on a gentoo guest using openrc [GH-9261]
   - guests/openbsd: Atomically apply new hostname.if(5) [GH-9265]
   - hosts/windows: Fix halt problem when determining powershell version on old powershells [GH-9470]
+  - hosts/windows: Convert to windows path if on WSL during vbox export [GH-9518]
   - providers/virtualbox: Fix hostonly matching not respecting :name argument [GH-9302]
   - util/credential_scrubber: Ignore empty strings [GH-9472, GH-9462]
 
