@@ -4,6 +4,12 @@ FEATURES:
 
 IMPROVEMENTS:
 
+BUG FIXES:
+
+## 2.0.3 (March 15, 2018)
+
+IMPROVEMENTS:
+
   - guests/solaris: More explicit Solaris 11 and inherit SmartOS from Solaris [GH-9398]
   - hosts/windows: Add support for latest WSL release [GH-9525, GH-9300]
   - plugins/login: Update middleware to re-map hosts and warn on custom server [GH-9499]
