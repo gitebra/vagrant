@@ -4,11 +4,19 @@ FEATURES:
 
 IMPROVEMENTS:
 
-- guests/windows: Fix slow timeout when updating windows hostname [GH-9578]
+- core: Make resolv-replace usage opt-in instead of opt-out [GH-9644]
+- core: Suppress error messages from checkpoint runs [GH-9645]
 - guests/coreos: Identify operating systems closely related to CoreOS [GH-9600]
+- guests/debian: Adjust network configuration file prefix to 50- [GH-9646]
 - guests/photon: Less specific string grep to fix PhotonOS 2.0 detection [GH-9528]
+- guests/windows: Fix slow timeout when updating windows hostname [GH-9578]
+- hosts/windows: Make powershell version detection timeout configurable [GH-9506]
+- util/platform: Warn on ArgumentError exceptions from encoding [GH-9506]
 
 BUG FIXES:
+
+- commands/package: Fix uninitialized constant error [GH-9654]
+- hosts/windows: Properly respect the VAGRANT_PREFER_SYSTEM_BIN environment variable [GH-9503]
 
 ## 2.0.3 (March 15, 2018)
 

@@ -187,7 +187,10 @@ required.
 
 If this is set, Vagrant will prefer using utility executables (like `ssh` and `rsync`)
 from the local system instead of those vendored within the Vagrant installation.
-This currently only applies to Windows systems.
+
+Vagrant will default to using a system provided `ssh` on Windows. This
+environment variable can also be used to disable that behavior to force Vagrant to
+use the embedded `ssh` executable by setting it to `0`.
 
 ## `VAGRANT_SKIP_SUBPROCESS_JAILBREAK`
 
@@ -219,8 +222,19 @@ shared folders. Defaults to true if the option is not set. This can be overridde
 on a per-folder basis within your Vagrantfile config by settings the
 `SharedFoldersEnableSymlinksCreate` option to true.
 
+## `VAGRANT_ENABLE_RESOLV_REPLACE`
+
+Use the Ruby Resolv library in place of the libc resolver.
+
 ## `VAGRANT_DISABLE_RESOLV_REPLACE`
 
-Vagrant will automatically load `resolv-replace` to use Ruby's Resolv library
-in place of the libc resolver. This behavior can be disabled by setting this
-environment variable.
+Vagrant can optionally use the Ruby Resolv library in place of the libc resolver.
+This can be disabled setting this environment variable.
+
+## `VAGRANT_POWERSHELL_VERSION_DETECTION_TIMEOUT`
+
+Vagrant will use a default timeout when checking for the installed version
+of PowerShell. Occasionally the default can be too low and Vagrant will report
+being unable to detect the installed version of PowerShell. This environment
+variable can be used to extend the timeout used during PowerShell version
+detection.

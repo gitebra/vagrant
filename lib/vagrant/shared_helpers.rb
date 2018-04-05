@@ -134,15 +134,36 @@ module Vagrant
   #
   # @return [boolean] enabled or not
   def self.enable_resolv_replace
-    if !ENV["VAGRANT_DISABLE_RESOLV_REPLACE"]
-      begin
-        require "resolv-replace"
-        true
-      rescue
+    if ENV["VAGRANT_ENABLE_RESOLV_REPLACE"]
+      if !ENV["VAGRANT_DISABLE_RESOLV_REPLACE"]
+        begin
+          require "resolv-replace"
+          true
+        rescue
+          false
+        end
+      else
         false
       end
-    else
-      false
     end
+  end
+
+  # Set the global logger
+  #
+  # @param log Logger
+  # @return [Logger]
+  def self.global_logger=(log)
+    @_global_logger = log
+  end
+
+  # Get the global logger instance
+  #
+  # @return [Logger]
+  def self.global_logger
+    if @_global_logger.nil?
+      require "log4r"
+      @_global_logger = Log4r::Logger.new("vagrant::global")
+    end
+    @_global_logger
   end
 end
