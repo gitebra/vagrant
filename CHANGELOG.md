@@ -6,6 +6,7 @@ FEATURES:
 
 IMPROVEMENTS:
 
+- communicators/ssh: Update file permissions when generating new key pairs [GH-9676]
 - core: Make resolv-replace usage opt-in instead of opt-out [GH-9644]
 - core: Suppress error messages from checkpoint runs [GH-9645]
 - guests/coreos: Identify operating systems closely related to CoreOS [GH-9600]
@@ -19,8 +20,11 @@ IMPROVEMENTS:
 BUG FIXES:
 
 - commands/package: Fix uninitialized constant error [GH-9654]
+- communicators/winrm: Fix command filter to properly parse commands [GH-9673]
 - hosts/windows: Properly respect the VAGRANT_PREFER_SYSTEM_BIN environment variable [GH-9503]
+- hosts/windows: Fix virtualbox shared folders path for windows guests [GH-8099]
 - util/checkpoint_client: Respect VAGRANT_CHECKPOINT_DISABLE environment variable [GH-9659]
+- util/platform: Use `--version` instead of `version` for WSL validation [GH-9674]
 
 ## 2.0.3 (March 15, 2018)
 
