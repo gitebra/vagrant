@@ -2,9 +2,15 @@
 
 FEATURES:
 
+- core: Integrate vagrant-triggers plugin functionality into core Vagrant [GH-9713]
+
 IMPROVEMENTS:
 
+- provisioner/chef_zero: Support arrays for data_bags_path [GH-9669]
+
 BUG FIXES:
+
+- provisioner/puppet: Properly finalize structured_facts config option [GH-9720]
 
 ## 2.0.4 (April 20, 2018)
 
