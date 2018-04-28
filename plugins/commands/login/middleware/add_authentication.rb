@@ -35,11 +35,17 @@ module VagrantPlugins
         token  = client.token
 
         env[:box_urls].map! do |url|
-          u = URI.parse(url)
-          if u.host != TARGET_HOST && REPLACEMENT_HOSTS.include?(u.host)
-            u.host = TARGET_HOST
+          begin
+            u = URI.parse(url)
+            if u.host != TARGET_HOST && REPLACEMENT_HOSTS.include?(u.host)
+              u.host = TARGET_HOST
+              u.to_s
+            else
+              url
+            end
+          rescue URI::Error
+            url
           end
-          u.to_s
         end
 
         server_uri = URI.parse(Vagrant.server_url.to_s)
