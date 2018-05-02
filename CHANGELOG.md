@@ -9,13 +9,16 @@ IMPROVEMENTS:
 - core: Improve messaging around not finding requested provider [GH-9735]
 - core: Disable exception reports by default [GH-9738]
 - hosts/windows: Add SMB default mount options capability and set default version to 2.0 [GH-9734]
+- provider/hyperv: Include neighbor check for MAC on guest IP detection [GH-9737]
 - provisioner/chef_zero: Support arrays for data_bags_path [GH-9669]
 - util/downloader: Don't raise error if response is HTTP 416 [GH-9729]
+- util/platform: Update Hyper-V enabled check [GH-9746]
 
 BUG FIXES:
 
 - middleware/authentication: Prevent URL modification when no changes are required [GH-9730]
 - middleware/authentication: Ignore URLs which cannot be parsed [GH-9739]
+- provider/hyperv: Reference switches by ID instead of name [GH-9747]
 - provisioner/puppet: Properly finalize structured_facts config option [GH-9720]
 - util/platform: Fix original WSL to Windows path for "root" directory [GH-9696]
 
