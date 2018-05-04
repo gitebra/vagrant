@@ -2,23 +2,37 @@
 
 FEATURES:
 
+IMPROVEMENTS:
+
+BUG FIXES:
+
+## 2.1.0 (May 3, 2018)
+
+FEATURES:
+
 - core: Integrate vagrant-triggers plugin functionality into core Vagrant [GH-9713]
 
 IMPROVEMENTS:
 
 - core: Improve messaging around not finding requested provider [GH-9735]
 - core: Disable exception reports by default [GH-9738]
+- core: Continue on if vagrant fails to parse metadata box for update [GH-9760]
+- hosts/linux: Support RDP capability within WSL [GH-9758]
 - hosts/windows: Add SMB default mount options capability and set default version to 2.0 [GH-9734]
 - provider/hyperv: Include neighbor check for MAC on guest IP detection [GH-9737]
+- provider/virtualbox: Do not require VirtualBox availability within WSL [GH-9759]
 - provisioner/chef_zero: Support arrays for data_bags_path [GH-9669]
 - util/downloader: Don't raise error if response is HTTP 416 [GH-9729]
 - util/platform: Update Hyper-V enabled check [GH-9746]
 
 BUG FIXES:
 
+- communicators/ssh: Log error and proceed on Windows private key permissions [GH-9769]
 - middleware/authentication: Prevent URL modification when no changes are required [GH-9730]
 - middleware/authentication: Ignore URLs which cannot be parsed [GH-9739]
 - provider/hyperv: Reference switches by ID instead of name [GH-9747]
+- provider/docker: Use Util::SafeExec if docker-exec is run with `-t` option [GH-9761]
+- provisioner/chef: Trim drive letter from path on Windows [GH-9766]
 - provisioner/puppet: Properly finalize structured_facts config option [GH-9720]
 - util/platform: Fix original WSL to Windows path for "root" directory [GH-9696]
 
