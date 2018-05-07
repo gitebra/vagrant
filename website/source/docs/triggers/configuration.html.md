@@ -31,11 +31,11 @@ The trigger class takes various options.
 
 * `on_error` (symbol) - Defines how the trigger should behave if it encounters an error. By default this will be `:halt`, but can be configured to ignore failures and continue on with `:continue`.
 
-* `only_on` (string, regex, array) - Guest or guests to be ignored on the defined trigger. Values can be a string or regex that matches a guest name.
+* `only_on` (string, regex, array) - Limit the trigger to these guests. Values can be a string or regex that matches a guest name.
 
-* `run_remote` (hash) - A collection of settings to run a inline or remote script with on the guest. These settings correspond to the [shell provosioner](/docs/provisioning/shell.html).
+* `run_remote` (hash) - A collection of settings to run a inline or remote script with on the guest. These settings correspond to the [shell provisioner](/docs/provisioning/shell.html).
 
-* `run` (hash) - A collection of settings to run a inline or remote script with on the host. These settings correspond to the [shell provosioner](/docs/provisioning/shell.html). However, at the moment the only settings `run` takes advantage of are:
+* `run` (hash) - A collection of settings to run a inline or remote script on the host. These settings correspond to the [shell provisioner](/docs/provisioning/shell.html). However, at the moment the only settings `run` takes advantage of are:
   + `args`
   + `inline`
   + `path`
