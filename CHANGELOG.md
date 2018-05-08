@@ -6,7 +6,17 @@ IMPROVEMENTS:
 
 BUG FIXES:
 
+## 2.1.1 (May 7, 2018)
+
+IMPROVEMENTS:
+
+- guest/linux: Support builtin vboxsf module for shared folders [GH-9800]
+- host/windows: Update SMB capability to work without Get-SmbShare cmdlet [GH-9785]
+
+BUG FIXES:
+
 - core/triggers: Initialize internal trigger object for machine before initializing provider [GH-9784]
+- core/triggers: Ensure internal trigger fire does not get called if plugin installed [GH-9799]
 - provider/hyperv: Call import script with switchid instead of switchname [GH-9781]
 
 ## 2.1.0 (May 3, 2018)
