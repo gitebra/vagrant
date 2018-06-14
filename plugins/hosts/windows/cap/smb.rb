@@ -38,7 +38,7 @@ module VagrantPlugins
 
           m_id = machine_id(machine)
           prune_shares = existing_shares.map do |share_name, share_info|
-            if share_info["Description"].start_with?("vgt-#{m_id}-")
+            if share_info["Description"].to_s.start_with?("vgt-#{m_id}-")
               @@logger.info("removing smb share name=#{share_name} id=#{m_id}")
               share_name
             else
@@ -129,7 +129,7 @@ module VagrantPlugins
         #
         # @return [Hash]
         def self.get_smbshares
-          result = Vagrant::Util::PowerShell.execute_cmd("Get-SmbShare|Format-List")
+          result = Vagrant::Util::PowerShell.execute_cmd("Get-SmbShare|Format-List|Out-String -Width 4096")
           if result.nil?
             return nil
           end
@@ -151,7 +151,7 @@ module VagrantPlugins
         #
         # @return [Hash]
         def self.get_netshares
-          result = Vagrant::Util::PowerShell.execute_cmd("net share")
+          result = Vagrant::Util::PowerShell.execute_cmd("net share | Out-String -Width 4096")
           if result.nil?
             return nil
           end
@@ -159,10 +159,12 @@ module VagrantPlugins
           share_names = result.strip.split("\n").map do |line|
             line.strip.split(/\s+/).first
           end
+          # Last item is command completion notification so remove it
+          share_names.pop
           shares = {}
           share_names.each do |share_name|
             shares[share_name] = {}
-            result = Vagrant::Util::PowerShell.execute_cmd("net share #{share_name}")
+            result = Vagrant::Util::PowerShell.execute_cmd("net share #{share_name} |  Out-String -Width 4096")
             next if result.nil?
             result.each_line do |line|
               key, value = line.strip.split(/\s+/, 2)

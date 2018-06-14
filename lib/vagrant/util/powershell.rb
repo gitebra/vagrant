@@ -54,8 +54,12 @@ module Vagrant
         if opts.delete(:sudo) || opts.delete(:runas)
           powerup_command(path, args, opts)
         else
-          env = opts.delete(:env)
-          if env
+          if mpath = opts.delete(:module_path)
+            m_env = opts.fetch(:env, {})
+            m_env["PSModulePath"] = "$env:PSModulePath+';#{mpath}'"
+            opts[:env] = m_env
+          end
+          if env = opts.delete(:env)
             env = env.map{|k,v| "$env:#{k}=#{v}"}.join(";") + "; "
           end
           command = [
@@ -64,7 +68,7 @@ module Vagrant
             "-NoProfile",
             "-NonInteractive",
             "-ExecutionPolicy", "Bypass",
-            "#{resize_console}#{env}&('#{path}')",
+            "#{env}&('#{path}')",
             args
           ].flatten
 
@@ -85,8 +89,12 @@ module Vagrant
       #   Returns stdout string if exit code is zero.
       def self.execute_cmd(command, **opts)
         validate_install!
-        env = opts.delete(:env)
-        if env
+        if mpath = opts.delete(:module_path)
+          m_env = opts.fetch(:env, {})
+          m_env["PSModulePath"] = "$env:PSModulePath+';#{mpath}'"
+          opts[:env] = m_env
+        end
+        if env = opts.delete(:env)
           env = env.map{|k,v| "$env:#{k}=#{v}"}.join(";") + "; "
         end
         c = [
@@ -96,7 +104,7 @@ module Vagrant
           "-NonInteractive",
           "-ExecutionPolicy", "Bypass",
           "-Command",
-          "#{resize_console}#{env}#{command}"
+          "#{env}#{command}"
         ].flatten.compact
 
         r = Subprocess.execute(*c)
@@ -112,8 +120,12 @@ module Vagrant
       # @param [Block] block Ruby block
       def self.execute_inline(*command, **opts, &block)
         validate_install!
-        env = opts.delete(:env)
-        if env
+        if mpath = opts.delete(:module_path)
+          m_env = opts.fetch(:env, {})
+          m_env["PSModulePath"] = "$env:PSModulePath+';#{mpath}'"
+          opts[:env] = m_env
+        end
+        if env = opts.delete(:env)
           env = env.map{|k,v| "$env:#{k}=#{v}"}.join(";") + "; "
         end
         c = [
@@ -123,7 +135,7 @@ module Vagrant
           "-NonInteractive",
           "-ExecutionPolicy", "Bypass",
           "-Command",
-          "#{resize_console}#{env}#{command}"
+          "#{env}#{command}"
         ].flatten.compact
         c << opts
 
@@ -241,19 +253,6 @@ module Vagrant
       # API and should only be used for testing.
       def self.reset!
         instance_variables.each(&method(:remove_instance_variable))
-      end
-
-      # @private
-      # This is a helper method that provides the PowerShell command to resize
-      # the "console" to prevent output wrapping or truncating. An environment
-      # variable guard is provided to disable the behavior in cases where it
-      # may cause unexpected results (VAGRANT_POWERSHELL_RESIZE_DISABLE)
-      def self.resize_console
-        if ENV["VAGRANT_POWERSHELL_RESIZE_DISABLE"]
-          ""
-        else
-          "$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(512,50); "
-        end
       end
     end
   end

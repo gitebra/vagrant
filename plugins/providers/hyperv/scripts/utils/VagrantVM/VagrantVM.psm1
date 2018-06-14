@@ -96,6 +96,9 @@ function New-VagrantVMVMCX {
         Hyper-V\Set-VMFirmware -VM $VM -EnableSecureBoot (Hyper-V\Get-VMFirmware -VM $VM).SecureBoot
     }
 
+    # Disconnect adapters from switches
+    Hyper-V\Get-VMNetworkAdapter -VM $VM | Hyper-V\Disconnect-VMNetworkAdapter
+
     # Verify new VM
     $Report = Hyper-V\Compare-VM -CompatibilityReport $VMConfig
     if($Report.Incompatibilities.Length -gt 0){
@@ -365,6 +368,12 @@ function Set-VagrantVMMemory {
     }
 
     if($DynamicMemory) {
+        if($MemoryMaximumBytes < $MemoryMinimumBytes) {
+            throw "Maximum memory value is less than required minimum memory value."
+        } else if ($MemoryMaximumBytes < $MemoryStartupBytes) {
+            throw "Maximum memory value is less than configured startup memory value."
+        }
+
         Hyper-V\Set-VM -VM $VM -DynamicMemory
         Hyper-V\Set-VM -VM $VM -MemoryMinimumBytes $MemoryMinimumBytes -MemoryMaximumBytes `
           $MemoryMaximumBytes -MemoryStartupBytes $MemoryStartupBytes
