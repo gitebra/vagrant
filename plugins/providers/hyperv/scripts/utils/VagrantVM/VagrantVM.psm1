@@ -1,3 +1,6 @@
+# Always stop when errors are encountered unless instructed not to
+$ErrorActionPreference = "Stop"
+
 # Vagrant VM creation functions
 
 function New-VagrantVM {
@@ -83,6 +86,13 @@ function New-VagrantVMVMCX {
         VirtualMachinePath = $DataPath;
     }
     $VMConfig = (Hyper-V\Compare-VM -Copy -GenerateNewID @NewVMConfig)
+
+    # If the config is empty it means the import failed. Attempt to provide
+    # context for failure
+    if($VMConfig -eq $null) {
+        Report-ErrorVagrantVMImport -VMConfigFile $VMConfigFile
+    }
+
     $VM = $VMConfig.VM
     $Gen = $VM.Generation
 
@@ -115,8 +125,8 @@ function New-VagrantVMVMCX {
                 if([System.IO.Path]::GetFileName($Drive.Path) -eq [System.IO.Path]::GetFileName($SourcePath)) {
                     $Path = $Drive.Path
                     Hyper-V\Remove-VMHardDiskDrive $Drive
-                    Hyper-V\New-VHD -Path $DestinationPath -ParentPath $SourcePath
-                    Hyper-V\AddVMHardDiskDrive -VM $VM -Path $DestinationPath
+                    Hyper-V\New-VHD -Path $DestinationPath -ParentPath $SourcePath -Differencing
+                    Hyper-V\Add-VMHardDiskDrive -VM $VM -Path $DestinationPath
                     break
                 }
             }
@@ -338,6 +348,74 @@ VirtualMachine. The cloned Hyper-V VM.
 #>
 }
 
+function Report-ErrorVagrantVMImport {
+    param (
+        [parameter(Mandatory=$true)]
+        [string] $VMConfigFile
+    )
+
+    $ManagementService = Get-WmiObject -Namespace 'root\virtualization\v2' -Class 'Msvm_VirtualSystemManagementService'
+
+    # Relative path names will fail when attempting to import a system
+    # definition so always ensure we are using the full path to the
+    # configuration file.
+    $FullPathFile = (Resolve-Path $VMConfigFile).Path
+
+    $Result = $ManagementService.ImportSystemDefinition($FullPathFile, $null, $true)
+    if($Result.ReturnValue -eq 0) {
+        throw "Unknown error encountered while importing VM"
+    } elseif($Result.ReturnValue -eq 4096) {
+        $job = Get-WmiObject -Namespace 'root\virtualization\v2' -Query 'select * from Msvm_ConcreteJob' | Where {$_.__PATH -eq $Result.Job}
+        while($job.JobState -eq 3 -or $job.JobState -eq 4) {
+            start-sleep 1
+            $job = Get-WmiObject -Namespace 'root\virtualization\v2' -Query 'select * from Msvm_ConcreteJob' | Where {$_.__PATH -eq $Result.Job}
+        }
+        $ErrorMsg = $job.ErrorDescription + "`n`n"
+        $ErrorMsg = $ErrorMsg + "Error Code: " + $job.ErrorCode + "`n"
+        $cause = "Unknown"
+        switch($job.ErrorCode) {
+            32768 { $cause = "Failed" }
+            32769 { $cause = "Access Denied" }
+            32770 { $cause = "Not Supported" }
+            32771 { $cause = "Status is unknown" }
+            32772 { $cause = "Timeout" }
+            32773 { $cause = "Invalid parameter" }
+            32774 { $cause = "System is in use" }
+            32775 { $cause = "Invalid state for this operation" }
+            32776 { $cause = "Incorrect data type" }
+            32777 { $cause = "System is not available" }
+            32778 { $cause = "Out of memory" }
+            32779 { $cause = "File in Use" }
+            32784 { $cause = "VM version is unsupported" }
+        }
+        $ErrorMsg = $ErrorMsg + "Cause: ${cause}"
+        throw $ErrorMsg
+    } else {
+        throw "Failed to run VM import job. Error value: ${Result.ReturnValue}"
+    }
+<#
+.SYNOPSIS
+
+Determines cause of error for VM import.
+
+.DESCRIPTION
+
+Runs a local import of the VM configuration and attempts to determine
+the underlying cause of the import failure.
+
+.PARAMETER VMConfigFile
+Path to the Hyper-V VM configuration file.
+
+.INPUTS
+
+None.
+
+.OUTPUTS
+
+None.
+#>
+}
+
 # Vagrant VM configuration functions
 
 function Set-VagrantVMMemory {
@@ -368,9 +446,10 @@ function Set-VagrantVMMemory {
     }
 
     if($DynamicMemory) {
-        if($MemoryMaximumBytes < $MemoryMinimumBytes) {
+        if($MemoryMaximumBytes -lt $MemoryMinimumBytes) {
             throw "Maximum memory value is less than required minimum memory value."
-        } else if ($MemoryMaximumBytes < $MemoryStartupBytes) {
+        }
+        if ($MemoryMaximumBytes -lt $MemoryStartupBytes) {
             throw "Maximum memory value is less than configured startup memory value."
         }
 
@@ -621,5 +700,35 @@ Name of the VMSwitch.
 .OUTPUT
 
 VirtualMachine.
+#>
+}
+
+function Check-VagrantHyperVAccess {
+    param (
+        [parameter (Mandatory=$true)]
+        [string] $Path
+    )
+    $acl = Get-ACL -Path $Path
+    $systemACL = $acl.Access | where {$_.IdentityReference -eq "NT AUTHORITY\System" -and $_.FileSystemRights -eq "FullControl" -and $_.AccessControlType -eq "Allow" -and $_.IsInherited -eq $true}
+    if($systemACL) {
+        return $true
+    }
+    return $false
+<#
+.SYNOPSIS
+
+Check Hyper-V access at given path.
+
+.DESCRIPTION
+
+Checks that the given path has the correct access rules for Hyper-V
+
+.PARAMETER PATH
+
+Path to check
+
+.OUTPUT
+
+Boolean
 #>
 }
