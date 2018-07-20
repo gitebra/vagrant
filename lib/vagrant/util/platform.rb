@@ -392,8 +392,9 @@ module Vagrant
         # @param [String, Pathname] path Path to convert
         # @return [String]
         def wsl_to_windows_path(path)
+          path = path.to_s
           if wsl? && wsl_windows_access? && !path.match(/^[a-zA-Z]:/)
-            path = File.expand_path(path.to_s)
+            path = File.expand_path(path)
             if wsl_path?(path)
               parts = path.split("/")
               parts.delete_if(&:empty?)
@@ -405,13 +406,13 @@ module Vagrant
               end
               path = [root_path, *parts].join("\\")
             else
-              path = path.to_s.sub("/mnt/", "")
+              path = path.sub("/mnt/", "")
               parts = path.split("/")
               parts.first << ":"
               path = parts.join("\\")
             end
           end
-          path.to_s
+          path
         end
 
         # Takes a windows path and formats it to the
@@ -481,6 +482,41 @@ module Vagrant
         def wsl_windows_access_bypass?(path)
           wsl? && wsl_windows_access? &&
             path.to_s.start_with?(wsl_windows_accessible_path.to_s)
+        end
+
+        # Mount pattern for extracting local mount information
+        MOUNT_PATTERN = /^(?<device>.+?) on (?<mount>.+?) type (?<type>.+?) \((?<options>.+)\)/.freeze
+
+        # Get list of local mount paths that are DrvFs file systems
+        #
+        # @return [Array<String>]
+        def wsl_drvfs_mounts
+          if !defined?(@_wsl_drvfs_mounts)
+            @_wsl_drvfs_mounts = []
+            if wsl?
+              result = Util::Subprocess.execute("mount")
+              result.stdout.each_line do |line|
+                info = line.match(MOUNT_PATTERN)
+                if info && info[:type] == "drvfs"
+                  @_wsl_drvfs_mounts << info[:mount]
+                end
+              end
+            end
+          end
+          @_wsl_drvfs_mounts
+        end
+
+        # Check if given path is located on DrvFs file system
+        #
+        # @param [String, Pathname] path Path to check
+        # @return [Boolean]
+        def wsl_drvfs_path?(path)
+          if wsl?
+            wsl_drvfs_mounts.each do |mount_path|
+              return true if path.to_s.start_with?(mount_path)
+            end
+          end
+          false
         end
 
         # If running within the Windows Subsystem for Linux, this will provide
