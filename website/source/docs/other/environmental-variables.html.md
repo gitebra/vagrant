@@ -161,6 +161,19 @@ may be desirable to ignore inaccessible sources and continue with the
 plugin installation. Enabling this value will cause Vagrant to simply log
 the plugin source error and continue.
 
+## `VAGRANT_INSTALL_LOCAL_PLUGINS`
+
+If this is set to any value, Vagrant will not prompt for confirmation
+prior to installing local plugins which have been defined within the
+local Vagrantfile.
+
+## `VAGRANT_LOCAL_PLUGINS_LOAD`
+
+If this is set Vagrant will not stub the Vagrantfile when running
+`vagrant plugin` commands. When this environment variable is set the
+`--local` flag will not be required by `vagrant plugin` commands to
+enable local project plugins.
+
 ## `VAGRANT_NO_PARALLEL`
 
 If this is set, Vagrant will not perform any parallel operations (such as
@@ -243,6 +256,9 @@ of PowerShell. Occasionally the default can be too low and Vagrant will report
 being unable to detect the installed version of PowerShell. This environment
 variable can be used to extend the timeout used during PowerShell version
 detection.
+
+When setting this environment variable, its value will be in seconds. By default,
+it will use 30 seconds as a timeout.
 
 ## `VAGRANT_USE_VAGRANT_TRIGGERS`
 

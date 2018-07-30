@@ -2,21 +2,30 @@
 
 FEATURES:
 
+- core: Support for project specific plugins [GH-10037]
+
 IMPROVEMENTS:
 
+- contrib/bash: Replace -VAGRANTSLASH- with literal slash in completion [GH-9987]
 - core: Show installed version of Vagrant when displaying version check [GH-9968]
 - core/triggers: Catch and allow for non-standard exit codes with triggers `run` options [GH-10005]
 - guest/debian: Isolate network interface configuration to individual files for systemd [GH-9889]
+- guest/redhat: Use libnfs-utils package if available [GH-9878]
+- provider/docker: Support Docker volume consistency for synced folders [GH-9811]
 - provider/hyperv: Disable synced folders on non-DrvFs file systems by default [GH-10001]
 - util/downloader: Support custom suffix on user agent string [GH-9966]
+- util/downloader: Prevent false positive matches on Location header [GH-10041]
 
 BUG FIXES:
 
 - core: Disable Vagrantfile loading with plugin commands [GH-10030]
+- core: Ensure the SecureRandom library is loaded for the trigger class [GH-10063]
+- host/windows: Remove localization dependency from SMB list generation [GH-10043]
 - provider/hyperv: Fix checkpoint configuration and properly disable automatic checkpoints by default [GH-9999]
 - provider/hyperv: Remove localization dependency from access check [GH-10000]
 - push/ftp: Custom error when attempting to push too many files [GH-9952]
 - util/downloader: Prevent errors when Location header contains relative path [GH-10017]
+- util/guest_inspection: Prevent nmcli check from hanging when pty is enabled [GH-9926]
 - util/platform: Always force string type conversion on path [GH-9998]
 
 ## 2.1.2 (June 26, 2018)
