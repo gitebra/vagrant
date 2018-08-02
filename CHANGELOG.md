@@ -6,8 +6,10 @@ FEATURES:
 
 IMPROVEMENTS:
 
+- communicator/winrm: Display warning if vagrant-winrm plugin is detected [GH-10076]
 - contrib/bash: Replace -VAGRANTSLASH- with literal slash in completion [GH-9987]
 - core: Show installed version of Vagrant when displaying version check [GH-9968]
+- core: Update net-ssh dependency constraint to ~> 5.0.0 [GH-10066]
 - core/triggers: Catch and allow for non-standard exit codes with triggers `run` options [GH-10005]
 - guest/debian: Isolate network interface configuration to individual files for systemd [GH-9889]
 - guest/redhat: Use libnfs-utils package if available [GH-9878]
@@ -15,6 +17,7 @@ IMPROVEMENTS:
 - provider/hyperv: Disable synced folders on non-DrvFs file systems by default [GH-10001]
 - util/downloader: Support custom suffix on user agent string [GH-9966]
 - util/downloader: Prevent false positive matches on Location header [GH-10041]
+- util/subprocess: Force system library paths for executables external to AppImage [GH-10078]
 
 BUG FIXES:
 
@@ -23,6 +26,8 @@ BUG FIXES:
 - host/windows: Remove localization dependency from SMB list generation [GH-10043]
 - provider/hyperv: Fix checkpoint configuration and properly disable automatic checkpoints by default [GH-9999]
 - provider/hyperv: Remove localization dependency from access check [GH-10000]
+- provider/hyperv: Enable ExposeVirtualizationExtensions only when available [GH-10079]
+- provider/virtualbox: Skip link-local when fixing IPv6 route [GH-9639, GH-10077]
 - push/ftp: Custom error when attempting to push too many files [GH-9952]
 - util/downloader: Prevent errors when Location header contains relative path [GH-10017]
 - util/guest_inspection: Prevent nmcli check from hanging when pty is enabled [GH-9926]
