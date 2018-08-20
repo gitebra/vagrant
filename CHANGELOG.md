@@ -6,6 +6,7 @@ FEATURES:
 
 IMPROVEMENTS:
 
+- command/reload: Add `--force` flag to reload command [GH-10123]
 - communicator/winrm: Display warning if vagrant-winrm plugin is detected [GH-10076]
 - contrib/bash: Replace -VAGRANTSLASH- with literal slash in completion [GH-9987]
 - core: Show installed version of Vagrant when displaying version check [GH-9968]
@@ -13,6 +14,7 @@ IMPROVEMENTS:
 - core: Only write box info if provider supports box objects [GH-10126]
 - core: Update net-ssh dependency constraint to ~> 5.0.0 [GH-10066]
 - core/triggers: Catch and allow for non-standard exit codes with triggers `run` options [GH-10005]
+- core/triggers: Allow for spaces in `path` for trigger run option [GH-10118]
 - guest/debian: Isolate network interface configuration to individual files for systemd [GH-9889]
 - guest/redhat: Use libnfs-utils package if available [GH-9878]
 - provider/docker: Support Docker volume consistency for synced folders [GH-9811]
@@ -25,10 +27,13 @@ BUG FIXES:
 
 - core: Disable Vagrantfile loading with plugin commands [GH-10030]
 - core: Ensure the SecureRandom library is loaded for the trigger class [GH-10063]
+- core/triggers: Allow trigger run args option to be a single string [GH-10116]
+- util/powershell: Properly `join` commands from passed in array [GH-10115]
 - guest/solaris: Add back guest detection check for Solaris derived guests [GH-10081]
 - guest/windows: Be more explicit when invoking cmd.exe with mount_volume script [GH-9976]
 - host/linux: Fix sudo usage in NFS capability when modifying exports file [GH-10084]
 - host/windows: Remove localization dependency from SMB list generation [GH-10043]
+- provider/docker: Convert windows paths for volume mounts on docker driver [GH-10100]
 - provider/hyperv: Fix checkpoint configuration and properly disable automatic checkpoints by default [GH-9999]
 - provider/hyperv: Remove localization dependency from access check [GH-10000]
 - provider/hyperv: Enable ExposeVirtualizationExtensions only when available [GH-10079]
