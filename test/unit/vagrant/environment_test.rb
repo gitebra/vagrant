@@ -25,6 +25,13 @@ describe Vagrant::Environment do
   let(:instance)  { env.create_vagrant_env }
   subject { instance }
 
+  describe "#initialize" do
+    it "should do an internal reset after plugin loading" do
+      expect_any_instance_of(described_class).to receive(:post_plugins_reset!)
+      instance
+    end
+  end
+
   describe "#can_install_provider?" do
     let(:plugin_hosts) { {} }
     let(:plugin_host_caps) { {} }
@@ -1428,6 +1435,79 @@ VF
 
       env = isolated_env.create_vagrant_env
       expect(env.machine_names).to eq([:foo, :bar])
+    end
+  end
+
+  describe "#process_configured_plugins" do
+    let(:env) do
+      isolated_environment.tap do |e|
+        e.box3("base", "1.0", :virtualbox)
+        e.vagrantfile(vagrantfile)
+      end
+    end
+
+    let(:vagrantfile) do
+      'Vagrant.configure("2"){ |config| config.vm.box = "base" }'
+    end
+
+    let(:plugin_manager) {
+      double("plugin_manager", installed_plugins: installed_plugins, local_file: local_file)
+    }
+
+    let(:installed_plugins) { {} }
+    let(:local_file) { double("local_file", installed_plugins: local_installed_plugins) }
+    let(:local_installed_plugins) { {} }
+
+    before do
+      allow(Vagrant::Plugin::Manager).to receive(:instance).and_return(plugin_manager)
+      allow(plugin_manager).to receive(:globalize!)
+      allow(plugin_manager).to receive(:localize!)
+      allow(plugin_manager).to receive(:load_plugins)
+    end
+
+    context "plugins are disabled" do
+      before{ allow(Vagrant).to receive(:plugins_enabled?).and_return(false) }
+
+      it "should return nil" do
+        expect(instance.send(:process_configured_plugins)).to be_nil
+      end
+    end
+
+    context "when vagrant is invalid" do
+      let(:vagrantfile) { 'Vagrant.configure("2"){ |config| config.vagrant.bad_key = true }' }
+
+      it "should raise a configuration error" do
+        expect { instance.send(:process_configured_plugins) }.to raise_error(Vagrant::Errors::ConfigInvalid)
+      end
+    end
+
+    context "with local plugins defined" do
+      let(:vagrantfile) { 'Vagrant.configure("2"){ |config| config.vagrant.plugins = "vagrant" }' }
+      let(:installed_plugins) { {"vagrant" => true} }
+
+      context "with plugin already installed" do
+
+        it "should not attempt to install a plugin" do
+          expect(plugin_manager).not_to receive(:install_plugin)
+          expect(instance.send(:process_configured_plugins)).to eq(local_installed_plugins)
+        end
+      end
+
+      context "without plugin installed" do
+
+        it "should prompt user before installation" do
+          expect(instance.ui).to receive(:ask).and_return("n")
+          expect(plugin_manager).to receive(:installed_plugins).and_return({})
+          expect { instance.send(:process_configured_plugins) }.to raise_error(Vagrant::Errors::PluginMissingLocalError)
+        end
+
+        it "should install plugin" do
+          expect(instance.ui).to receive(:ask).and_return("y")
+          expect(plugin_manager).to receive(:installed_plugins).and_return({})
+          expect(plugin_manager).to receive(:install_plugin).and_return(double("spec", "name" => "vagrant", "version" => "1"))
+          instance.send(:process_configured_plugins)
+        end
+      end
     end
   end
 end

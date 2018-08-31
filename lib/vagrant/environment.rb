@@ -178,6 +178,10 @@ module Vagrant
       plugins = Vagrant::Plugin::Manager.instance.globalize!
       Vagrant::Plugin::Manager.instance.load_plugins(plugins)
 
+      # Reset so Vagrantfile will be reloaded with expected support for
+      # any new plugins provided
+      post_plugins_reset!
+
       # Call the hooks that does not require configurations to be loaded
       # by using a "clean" action runner
       hook(:environment_plugins_loaded, runner: Action::Runner.new(env: self))
@@ -913,6 +917,18 @@ module Vagrant
 
     protected
 
+    # Unsets the internal vagrantfile and config_loader
+    # to force them to be regenerated. This is used after
+    # plugins have been loaded so that newly discovered
+    # plugin configurations are properly available
+    #
+    # @return [nil]
+    def post_plugins_reset!
+      @vagrantfile = nil
+      @config_loader = nil
+      nil
+    end
+
     # Check for any local plugins defined within the Vagrantfile. If
     # found, validate they are available. If they are not available,
     # request to install them, or raise an exception
@@ -943,7 +959,7 @@ module Vagrant
           answer = nil
           until ["y", "n"].include?(answer)
             answer = ui.ask(I18n.t("vagrant.plugins.local.request_plugin_install") + " [N]: ")
-            answer.strip!.downcase!
+            answer = answer.strip.downcase
             answer = "n" if answer.to_s.empty?
           end
           if answer == "n"
