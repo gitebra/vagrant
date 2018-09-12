@@ -5,15 +5,20 @@ FEATURES:
 IMPROVEMENTS:
 
 - core: Add `Vagrant.version?` helper method [GH-10191]
+- core: Scrub sensitive values from logger output [GH-10200]
+- core: Prevent multiple evaluations of Vagrantfile [GH-10199]
 - command/init: Support VAGRANT_DEFAULT_TEMPLATE env var [GH-10171]
 - command/powershell: Improve doc help string and fix winrm locales error [GH-10189]
+- contrib/bash: autocomplete running VM names for destroy subcommand [GH-10168]
+- guest/debian: Use `sudo` to determine if systemd is in use for hardened systems [GH-10198]
 - guest/openbsd: Add IPv6 network template for OpenBSD machines [GH-8912]
+- provisioners/salt: Allow non-windows hosts to pass along version [GH-10194]
 
 BUG FIXES:
 
 - core: Fix Vagrant.has_plugin? behavior before plugins are initialized [GH-10165]
 - core: Check verify_host_key for falsey or :never values when generating ssh config [GH-10182]
-- guest/liunux: Filter out empty strings and loopback interfaces when constructing list of network interfaces [GH-10092]
+- guest/linux: Filter out empty strings and loopback interfaces when constructing list of network interfaces [GH-10092]
 - provider/hyper-v: Check for automatic checkpoint support before configuring [GH-10181]
 
 ## 2.1.4 (August 30, 2018)
