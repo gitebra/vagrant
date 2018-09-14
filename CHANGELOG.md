@@ -4,6 +4,12 @@ FEATURES:
 
 IMPROVEMENTS:
 
+BUG FIXES:
+
+## 2.1.5 (September 12, 2018)
+
+IMPROVEMENTS:
+
 - core: Add `Vagrant.version?` helper method [GH-10191]
 - core: Scrub sensitive values from logger output [GH-10200]
 - core: Prevent multiple evaluations of Vagrantfile [GH-10199]
