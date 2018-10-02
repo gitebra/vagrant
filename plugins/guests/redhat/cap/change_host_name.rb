@@ -3,7 +3,7 @@ module VagrantPlugins
     module Cap
       class ChangeHostName
 
-        extend Vagrant::Util::GuestInspection
+        extend Vagrant::Util::GuestInspection::Linux
 
         def self.change_host_name(machine, name)
           comm = machine.communicate
@@ -31,7 +31,7 @@ module VagrantPlugins
 
             restart_command = "service network restart"
 
-            if systemd?
+            if systemd?(comm)
               if systemd_networkd?(comm)
                 restart_command = "systemctl restart systemd-networkd.service"
               elsif systemd_controlled?(comm, "NetworkManager.service")
