@@ -2,6 +2,10 @@
 
 FEATURES:
 
+- command/upload: Add command for uploading files to guest [GH-10263]
+- command/winrm: Add command for executing guest commands via WinRM [GH-10263]
+- command/winrm-config: Add command for providing WinRM configuration [GH-10263]
+
 IMPROVEMENTS:
 
 - core: Ensure file paths are identical when checking for cwd [GH-10220]
@@ -9,7 +13,8 @@ IMPROVEMENTS:
 - core/triggers: Add abort option to core triggers [GH-10232]
 - core/triggers: Introduce `ruby` option for trigger [GH-10267]
 - contrib/bash: Add completion for snapshot names for vagrant snapshot restore|delete [GH-9054]
-- provider/docker: Build docker from git repo [GH-10221]
+- providers/docker: Build docker from git repo [GH-10221]
+- providers/hyperv: Update Hyper-V admin check and allow override via ENV variable [GH-10275]
 - providers/virtualbox: Allow base_mac to be optional [GH-10255]
 - provisioners/salt: bootstrap-salt.sh: use -s with curl [GH-9432]
 - provisioners/salt: remove leading space with bootstrap_options [GH-9431]
@@ -19,6 +24,8 @@ BUG FIXES:
 - contrib/sudoers/osx: Fix missing comma and add remove export alias [GH-10235]
 - guest/redhat: Update restart logic in redhat change_host_name cap [GH-10223]
 - guest/windows: Allow special characters in SMB password field [GH-10219]
+- providers/hyperv: Only use AutomaticCheckpointsEnabled when available [GH-10264]
+- providers/hyperv: Only use CheckpointType when available [GH-10265]
 - provisioners/puppet: Properly set env variables for puppet provisioner on windows [GH-10218]
 - provisioners/salt: Properly set salt pillar variables for windows guests [GH-10215]
 
