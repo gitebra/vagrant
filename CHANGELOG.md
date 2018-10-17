@@ -1,7 +1,8 @@
-## Next version (Unreleased)
+## 2.2.0 (October 16, 2018)
 
 FEATURES:
 
+- command/cloud: Introduce `vagrant cloud` subcommand to Vagrant [GH-10148]
 - command/upload: Add command for uploading files to guest [GH-10263]
 - command/winrm: Add command for executing guest commands via WinRM [GH-10263]
 - command/winrm-config: Add command for providing WinRM configuration [GH-10263]
