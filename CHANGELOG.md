@@ -1,3 +1,17 @@
+## Next version (Unreleased)
+
+FEATURES:
+
+IMPROVEMENTS:
+
+- communicators/ssh: Prevent overly verbose output waiting for connection [GH-10321]
+- providers/virtualbox: Add `automount` flag if specified with synced_folder [GH-10326]
+- synced_folders/smb: Allow for 'default' smb_username in prompt if set [GH-10319]
+
+BUG FIXES:
+
+- guest/debian: Fix halting issue when setting hostname [GH-10301]
+
 ## 2.2.0 (October 16, 2018)
 
 FEATURES:
