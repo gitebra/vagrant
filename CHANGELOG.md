@@ -2,6 +2,8 @@
 
 FEATURES:
 
+- providers/virtualbox: Add support for VirtualBox 6.0 [GH-10379]
+
 IMPROVEMENTS:
 
 - command/validate: Allow validation of config while ignoring provider [GH-10351]
@@ -17,6 +19,7 @@ IMPROVEMENTS:
 BUG FIXES:
 
 - command/login: Only show deprecation warning when command is invoked [GH-10374]
+- core: Fallback to Vagrantfile defined box information [GH-10368]
 - core/bundler: Update source ordering to properly resolve with new RubyGems [GH-10364]
 - guest/debian: Fix halting issue when setting hostname by restarting networking on guest [GH-10301, GH-10330]
 - guest/windows: Add reboot capability to fix hostname race condition [GH-10347]
