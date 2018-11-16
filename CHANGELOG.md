@@ -2,6 +2,14 @@
 
 FEATURES:
 
+IMPROVEMENTS:
+
+BUG FIXES:
+
+## 2.2.1 (November 15, 2018)
+
+FEATURES:
+
 - core/plugins: Add reset! method to communicator [GH-10399]
 - providers/virtualbox: Add support for VirtualBox 6.0 [GH-10379]
 
