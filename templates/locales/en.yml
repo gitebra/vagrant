@@ -568,6 +568,11 @@ en:
         a new box. This box, in turn, specified a different box. This isn't
         allowed, as it could lead to infinite recursion of Vagrant configuration
         loading. Please fix this.
+      box_file_not_exist: |-
+        The file you are attempting to upload does not exist. Please recheck
+        that the file exists and was passed in correctly.
+
+        File: %{file}
       box_metadata_corrupted: |-
         The metadata associated with the box '%{name}' appears corrupted.
         This is most often caused by a disk issue or system crash. Please
@@ -2701,9 +2706,11 @@ en:
         must_accept_keys: |-
           You must accept keys when running highstate with master!
         args_array: |-
-          You must set this value as an array.
+          You must set `args_array` value as an array.
         python_version: |-
-          You must set this as an integer or string that represents an integer.
+          You must set `python_version` as an integer or string that represents an integer.
+        version_type_missing: |-
+          You must set the option `install_type` when specifying a `version`.
 
     pushes:
       file:

@@ -1,8 +1,17 @@
 ## 2.2.2 (November 27, 2018)
 
+FEATURES:
+
+IMPROVEMENTS:
+
+- providers/salt: Validate that `install_type` is set if `version` is specified [GH-10474]
+- command/snapshot: Raise error for bad subcommand [GH-10470]
+
 BUG FIXES:
 
 - providers/virtualbox: Update default_nic_type implementation and add warning [GH-10450]
+- command/validate: Bypass install checks for validating configs with the `--ignore-provider` flag [GH-10467]
+- command/cloud publish: Ensure box file exists before path expanding [GH-10468]
 
 ## 2.2.1 (November 15, 2018)
 
