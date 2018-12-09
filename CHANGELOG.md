@@ -1,17 +1,28 @@
-## 2.2.2 (November 27, 2018)
+## Next version (Unreleased)
 
 FEATURES:
 
 IMPROVEMENTS:
 
-- providers/salt: Validate that `install_type` is set if `version` is specified [GH-10474]
 - command/snapshot: Raise error for bad subcommand [GH-10470]
+- command/package: Ensure temp dir for package command is cleaned up [GH-10479]
+- core: Display version update on stderr instead of stdout [GH-10482]
+- core: Add experimental feature flag [GH-10485]
+- host/windows: Prevent SMB setup commands from becoming too long [GH-10489]
+- providers/salt: Validate that `install_type` is set if `version` is specified [GH-10474]
+
+BUG FIXES:
+
+- command/validate: Bypass install checks for validating configs with the `--ignore-provider` flag [GH-10467]
+- command/cloud publish: Ensure box file exists before path expanding [GH-10468]
+- providers/virtualbox: Adjust version requirement for NIC warning [GH-10486]
+- util/powershell: Use correct Base64 encoding for encoded commands [GH-10487]
+
+## 2.2.2 (November 27, 2018)
 
 BUG FIXES:
 
 - providers/virtualbox: Update default_nic_type implementation and add warning [GH-10450]
-- command/validate: Bypass install checks for validating configs with the `--ignore-provider` flag [GH-10467]
-- command/cloud publish: Ensure box file exists before path expanding [GH-10468]
 
 ## 2.2.1 (November 15, 2018)
 
