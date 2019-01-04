@@ -9,6 +9,7 @@ IMPROVEMENTS:
 - command/rsync-auto: Prevent crash on post-rsync command failure [GH-10515]
 - command/snapshot: Raise error for bad subcommand [GH-10470]
 - command/package: Ensure temp dir for package command is cleaned up [GH-10479]
+- command/powershell: Support running elevated commands [GH-10528]
 - communicator/ssh: Add `config` and `remote_user` options [GH-10496]
 - core: Display version update on stderr instead of stdout [GH-10482]
 - core: Add experimental feature flag [GH-10485]
@@ -17,6 +18,8 @@ IMPROVEMENTS:
 - host/windows: Automatically answer yes when pruning SMB shares [GH-10524]
 - provisioners/salt: Validate that `install_type` is set if `version` is specified [GH-10474]
 - provisioners/salt: Update default install version [GH-10537]
+- provisioners/shell: Add `reboot` option for rebooting supported guest [GH-10532]
+- synced_folders/rsync: Support using rsync `--chown` option [GH-10529]
 - util/guest_inspection: Validate hostnamectl command works when detected [GH-10512]
 
 BUG FIXES:
