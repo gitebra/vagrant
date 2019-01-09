@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary       = "Build and distribute virtualized development environments."
   s.description   = "Vagrant is a tool for building and distributing virtualized development environments."
 
-  s.required_ruby_version     = "~> 2.2", "< 2.6"
+  s.required_ruby_version     = "~> 2.2", "< 2.7"
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "vagrant"
 
@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "listen", "~> 3.1.5"
   s.add_dependency "hashicorp-checkpoint", "~> 0.1.5"
   s.add_dependency "log4r", "~> 1.1.9", "< 1.1.11"
-  s.add_dependency "net-ssh", "~> 5.0.0"
+  s.add_dependency "net-ssh", "~> 5.1.0"
   s.add_dependency "net-sftp", "~> 2.1"
   s.add_dependency "net-scp", "~> 1.2.0"
   s.add_dependency "rb-kqueue", "~> 0.2.0"
@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency "winrm", "~> 2.1"
   s.add_dependency "winrm-fs", "~> 1.0"
   s.add_dependency "winrm-elevated", "~> 1.1"
-  s.add_dependency "vagrant_cloud", "~> 2.0.0"
+  s.add_dependency "vagrant_cloud", "~> 2.0.2"
 
   # NOTE: The ruby_dep gem is an implicit dependency from the listen gem. Later versions
   # of the ruby_dep gem impose an aggressive constraint on the required ruby version (>= 2.2.5).
