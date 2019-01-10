@@ -2,6 +2,14 @@
 
 FEATURES:
 
+IMPROVEMENTS:
+
+BUG FIXES:
+
+## 2.2.3 (January 9, 2019)
+
+FEATURES:
+
 - host/void: Add host support for void linux [GH-10012]
 
 IMPROVEMENTS:
