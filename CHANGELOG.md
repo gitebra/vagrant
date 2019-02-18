@@ -2,11 +2,18 @@
 
 FEATURES:
 
+- core/triggers: Introduce new option `:type` for actions, hooks, and commands [GH-10615]
+
 IMPROVEMENTS:
+
+- guest/windows: Add reboot output to guest capability [GH-10638]
 
 BUG FIXES:
 
+- core: Fix format finalization of plugins in Vagrantfile [GH-10664]
+- core: Fix SIGINT behavior and prevent backtrace [GH-10666]
 - guest/debian: Properly set DHCP for systemd-networkd ips [GH-10586]
+- installers/appimage: Use ld path with appimage libs on suffix [GH-10647]
 - providers/docker: Expand paths when comparing synced folders on reload [GH-10645]
 - providers/virtualbox: Fix import paths on Windows with VirtualBox 6 [GH-10629]
 

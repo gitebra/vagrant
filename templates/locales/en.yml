@@ -82,6 +82,8 @@ en:
       * '%{name}' for '%{provider}' (v%{version}) is up to date
     box_up_to_date_single: |-
       Box '%{name}' (v%{version}) is running the latest version.
+    box_version_malformed:
+      Invalid version '%{version}' for '%{box_name}', ignoring...
     cfengine_bootstrapping: |-
       Bootstrapping CFEngine with policy server: %{policy_server}...
     cfengine_bootstrapping_policy_hub: |-
@@ -296,7 +298,7 @@ en:
       abort: |-
         Vagrant has been configured to abort. Terminating now...
       start: |-
-        Running triggers %{stage} %{action} ...
+        Running %{type} triggers %{stage} %{action} ...
       fire_with_name: |-
         Running trigger: %{name}...
       fire: |-
@@ -1502,6 +1504,8 @@ en:
         Trigger run failed
       triggers_guest_not_running: |-
         Could not run remote script on %{machine_name} because its state is %{state}
+      triggers_guest_not_exist: |-
+        Could not run remote script on guest because it does not exist.
       triggers_bad_exit_codes: |-
         A script exited with an unacceptable exit code %{code}.
       triggers_no_block_given: |-
@@ -1813,6 +1817,8 @@ en:
         sensitive_bad_type: |-
           Invalid type provided for `sensitive`. The sensitive option expects a string
           or an array of strings.
+        plugins_invalid_format: |-
+          Invalid type provided for `plugins`.
         plugins_bad_key: |-
           Invalid plugin configuration detected for `%{plugin_name}` plugin.
 
@@ -1826,6 +1832,8 @@ en:
           values are exactly the same, only the name of the option has changed.
         ssh_config_missing: "`config` file must exist: %{path}"
       triggers:
+        bad_trigger_type: |-
+          The type '%{type}' defined for trigger '%{trigger}' is not valid. Must be one of the following types: '%{types}'
         bad_command_warning: |-
           The command '%{cmd}' was not found for this trigger.
         name_bad_type: |-
@@ -1921,6 +1929,14 @@ en:
           The host path of the shared folder is not supported from WSL. Host
           path of the shared folder must be located on a file system with
           DrvFs type. Host path: %{path}
+
+#-------------------------------------------------------------------------------
+# Translations for guests
+#-------------------------------------------------------------------------------
+    guests:
+      capabilities:
+        rebooting: |-
+          Waiting for machine to reboot...
 
 #-------------------------------------------------------------------------------
 # Translations for commands. e.g. `vagrant x`
