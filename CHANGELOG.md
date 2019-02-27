@@ -2,11 +2,22 @@
 
 FEATURES:
 
+IMPROVEMENTS:
+
+BUG FIXES:
+
+## 2.2.4 (February 27, 2019)
+
+FEATURES:
+
 - core/triggers: Introduce new option `:type` for actions, hooks, and commands [GH-10615]
 
 IMPROVEMENTS:
 
+- communicator/ssh: Update `#upload` behavior to work properly with new sshd path checks [GH-10698]
+- communicator/winrm: Update `#upload` behavior to match ssh communicator upload behavior [GH-10698]
 - guest/windows: Add reboot output to guest capability [GH-10638]
+- provisioner/file: Refactor path modification rules and allow communicator to handle details [GH-10698]
 
 BUG FIXES:
 
@@ -15,9 +26,11 @@ BUG FIXES:
 - core: Change remaining box_client_cert refs to box_download_client_cert [GH-10622]
 - core: Move over AddAuthentication middleware and hooks  out of deprecated class [GH-10686]
 - guest/debian: Properly set DHCP for systemd-networkd ips [GH-10586]
+- guest/solaris11: Create interface if required before configuration [GH-10595]
 - installers/appimage: Use ld path with appimage libs on suffix [GH-10647]
 - providers/docker: Expand paths when comparing synced folders on reload [GH-10645]
 - providers/virtualbox: Fix import paths on Windows with VirtualBox 6 [GH-10629]
+- synced_folders/rsync: Properly clean up tmp folder created during rsync [GH-10690]
 
 ## 2.2.3 (January 9, 2019)
 
