@@ -6,8 +6,11 @@ IMPROVEMENTS:
 
 * core: Use consistent settings when unpacking boxes as root [GH-10707]
 * core: Write metadata.json file when packaging box [GH-10706]
+- guest/freebsd: Add proper VirtualBox share folders support for FreeBSD guests [GH-10717]
 
 BUG FIXES:
+
+- command/cloud: Properly set variable from CLI argument parsing for `username` field [GH-10726]
 
 ## 2.2.4 (February 27, 2019)
 
