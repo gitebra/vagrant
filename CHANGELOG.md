@@ -4,13 +4,16 @@ FEATURES:
 
 IMPROVEMENTS:
 
-* core: Use consistent settings when unpacking boxes as root [GH-10707]
-* core: Write metadata.json file when packaging box [GH-10706]
+- core: Use consistent settings when unpacking boxes as root [GH-10707]
+- core: Write metadata.json file when packaging box [GH-10706]
+- core: Remove whitespace from id file on load [GH-10727]
 - guest/freebsd: Add proper VirtualBox share folders support for FreeBSD guests [GH-10717]
 
 BUG FIXES:
 
 - command/cloud: Properly set variable from CLI argument parsing for `username` field [GH-10726]
+- communicator/ssh: Remove net/sftp loading to prevent loading errors [GH-10745]
+- guest/void: Fix NFS capability detection [GH-10713]
 
 ## 2.2.4 (February 27, 2019)
 
