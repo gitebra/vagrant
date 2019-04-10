@@ -9,6 +9,7 @@ IMPROVEMENTS:
 - core: Use consistent settings when unpacking boxes as root [GH-10707]
 - core: Write metadata.json file when packaging box [GH-10706]
 - core: Remove whitespace from id file on load [GH-10727]
+- guest/coreos:  Update network configuration and hostname setting [GH-10752]
 - guest/freebsd: Add proper VirtualBox share folders support for FreeBSD guests [GH-10717]
 - guest/freebsd: Add unmount share folder for  VirtualBox guests [GH-10761]
 - guest/freebsd: Simplify network interface listing when configuring networks [GH-10763]
@@ -19,6 +20,8 @@ BUG FIXES:
 - communicator/ssh: Remove net/sftp loading to prevent loading errors [GH-10745]
 - core/triggers: Fix typo in UI output [GH-10748]
 - guest/void: Fix NFS capability detection [GH-10713]
+- provider/virtualbox: Ensure non-existent machines do not attempt to list snapshots [GH-10784]
+- provisioner/ansible: Fix pip installer hardcoded curl get_pip.py piped to python [GH-10625]
 
 ## 2.2.4 (February 27, 2019)
 
