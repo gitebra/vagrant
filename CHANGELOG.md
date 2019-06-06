@@ -6,15 +6,19 @@ FEATURES:
 
 IMPROVEMENTS:
 
+- command/global-status: Provide machine-readable information [GH-10506]
 - command/snapshot: Separate snapshot names for guests when listing snapshots [GH-10828]
 - command/box/update: Ignore missing metadata files when updating all boxes [GH-10829]
 - core: Use consistent settings when unpacking boxes as root [GH-10707]
 - core: Write metadata.json file when packaging box [GH-10706]
 - core: Remove whitespace from id file on load [GH-10727]
+- core/bundler: Support resolution when installed within system [GH-10894]
 - guest/coreos:  Update network configuration and hostname setting [GH-10752]
 - guest/freebsd: Add proper VirtualBox share folders support for FreeBSD guests [GH-10717]
 - guest/freebsd: Add unmount share folder for  VirtualBox guests [GH-10761]
 - guest/freebsd: Simplify network interface listing when configuring networks [GH-10763]
+- providers/docker: Add usable? check to docker provider [GH-10890]
+- synced_folder/smb: Remove configuration information from synced folder data [GH-10811]
 
 BUG FIXES:
 
@@ -22,9 +26,12 @@ BUG FIXES:
 - command/cloud: Properly set variable from CLI argument parsing for `username` field [GH-10726]
 - communicator/ssh: Remove net/sftp loading to prevent loading errors [GH-10745]
 - contrib/bash: Search for running_vm_list only in `machines` folder [GH-10841]
+- core/bundler: Properly parse multiple constants when installing plugins [GH-10896]
+- core/environment: Support plugin configuration within box Vagrantfiles [GH-10889]
 - core/triggers: Fix typo in UI output [GH-10748]
 - core/triggers: Properly exit with abort option [GH-10824]
 - core/triggers: Ensure guest names are string when filtering trigger configs [GH-10854]
+- core/triggers: Abort after all running processes have completed when parallel is enabled [GH-10891]
 - guest/void: Fix NFS capability detection [GH-10713]
 - host/windows: Fix rubygems error when host has directory named `c` [GH-10803]
 - provider/virtualbox: Ensure non-existent machines do not attempt to list snapshots [GH-10784]
