@@ -24,6 +24,7 @@ BUG FIXES:
 
 - command/box/update: Ensure the right version is picked when updating specific boxes [GH-10810]
 - command/cloud: Properly set variable from CLI argument parsing for `username` field [GH-10726]
+- command/rsync_auto: Use relative paths to machines folder path for file path Listener [GH-10902]
 - communicator/ssh: Remove net/sftp loading to prevent loading errors [GH-10745]
 - contrib/bash: Search for running_vm_list only in `machines` folder [GH-10841]
 - core/bundler: Properly parse multiple constants when installing plugins [GH-10896]
@@ -33,10 +34,13 @@ BUG FIXES:
 - core/triggers: Ensure guest names are string when filtering trigger configs [GH-10854]
 - core/triggers: Abort after all running processes have completed when parallel is enabled [GH-10891]
 - guest/void: Fix NFS capability detection [GH-10713]
+- guest/bsd: Properly set BSD options order for /etc/exports [GH-10909]
 - host/windows: Fix rubygems error when host has directory named `c` [GH-10803]
 - provider/virtualbox: Ensure non-existent machines do not attempt to list snapshots [GH-10784]
 - provider/docker: Properly set docker-compose config file with volume names [GH-10820]
 - provisioner/ansible: Fix pip installer hardcoded curl get_pip.py piped to python [GH-10625]
+- provisioner/chef: Update chef install check for guests [GH-10917]
+- synced_folders/rsync: Remove rsync__excludes from command if array is empty [GH-10901]
 
 ## 2.2.4 (February 27, 2019)
 
