@@ -12,12 +12,16 @@ IMPROVEMENTS:
 - guest/suse: Add ipv6 network config templates for SUSE based distributions [GH-11013]
 - dev: Fixed Vagrantfile for Vagrant development [GH-11012]
 - provisioners/chef: Update pkg install flags for chef on FreeBSD guests [GH-11075]
+- provider/hyperv: Improve error message when VMMS is not running [GH-10978]
 
 BUG FIXES:
 
 - provider/docker: Fix default provider validation if password is used [GH-11053]
 - provider/docker: Fix Docker providers usable? check [GH-11068]
 - core: Ensure proper paths are shown in config loading exceptions [GH-11056]
+- command/rsync-auto: Fix path watcher bug so that all subdirectories are synced when changed [GH-11089]
+- command/snapshot/save: Ensure VM id is passed to list snapshots for hyper-v provider [GH-11097]
+- provisioner/ansible_local: Ensure pip_install_cmd is finalized to emptry string [GH-11098]
 
 ## 2.2.5 (June 19, 2019)
 
