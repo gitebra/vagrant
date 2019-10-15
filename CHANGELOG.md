@@ -2,6 +2,14 @@
 
 FEATURES:
 
+IMPROVEMENTS:
+
+BUG FIXES:
+
+## 2.2.6 (October 14, 2019)
+
+FEATURES:
+
 - core/provisioners: Introduce new Provisioner options: before and after [GH-11043]
 - guest/alpine: Integrate the vagrant-alpine plugin into Vagrant core [GH-10975]
 
