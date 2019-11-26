@@ -8,6 +8,7 @@ IMPROVEMENTS:
 - host/linux: Check for modinfo in /sbin if it's not on PATH [GH-11178]
 - core: Show guest name in hostname error message [GH-11175]
 - provisioners/shell: Linux guests now support `reboot` option [GH-11194]
+- darwin/nfs: Put each NFS export on its own line [GH-11216]
 
 BUG FIXES:
 
@@ -18,6 +19,9 @@ BUG FIXES:
 - cloud/publish: Improve argument handling for missing arguments to command [GH-11184]
 - core: Get latest version for current provider during outdated check [GH-11192]
 - linux/nfs: avoid adding extra newlines to /etc/exports [GH-11201]
+- guest/redhat: Ensure `nfs-server` is restarted when installing nfs client [GH-11212]
+- core: Do not validate checksums if options are empty string [GH-11211]
+- provider/docker: Enhance docker build method to match against buildkit output [GH-11205]
 
 ## 2.2.6 (October 14, 2019)
 
