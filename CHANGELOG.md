@@ -11,6 +11,9 @@ IMPROVEMENTS:
 - darwin/nfs: Put each NFS export on its own line [GH-11216]
 - contrib/bash: Add more completion flags to up command [GH-11223]
 - provider/virtualbox: Add VirtualBox provider support for version 6.1.x [GH-11250]
+- box/outdated: Allow to force check for box updates and ignore cached check [GH-11231]
+- guest/alpine: Update apk cache when installing rsync [GH-11220]
+- provider/virtualbox: Improve error message when machine folder is inaccessible [GH-11239]
 
 BUG FIXES:
 
@@ -24,6 +27,7 @@ BUG FIXES:
 - guest/redhat: Ensure `nfs-server` is restarted when installing nfs client [GH-11212]
 - core: Do not validate checksums if options are empty string [GH-11211]
 - provider/docker: Enhance docker build method to match against buildkit output [GH-11205]
+- provisioner/ansible_local: Don't prompt for input when installing Ansible on Ubuntu and Debian [GH-11191]
 
 ## 2.2.6 (October 14, 2019)
 
